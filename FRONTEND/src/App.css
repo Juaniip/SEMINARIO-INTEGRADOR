@@ -1,0 +1,84 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Body */
+body {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Navbar */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #282c34;
+  color: white;
+}
+
+nav .logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+nav .links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+nav .links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+nav .links a:hover {
+  color: #61dafb;
+}
+
+/* Contenedor principal de cada página */
+.page-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+/* Títulos */
+.page-container h1 {
+  margin-bottom: 1rem;
+  color: #282c34;
+}
+
+/* Párrafos */
+.page-container p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Botones */
+button {
+  padding: 0.6rem 1.2rem;
+  background-color: #61dafb;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 1rem;
+}
+
+button:hover {
+  background-color: #21a1f1;
+}

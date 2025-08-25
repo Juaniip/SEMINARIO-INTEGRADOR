@@ -1,11 +1,11 @@
 import { useState } from "react";
 import "./AnalisisForm.css";
 
-const AnalisisForm = () => {
+const AnalisisForm = ({ usuario }) => {
   const [formData, setFormData] = useState({
-    numero1: "",
-    numero2: "",
-    numero3: "",
+    area: "",
+    distancia: "",
+    constante: 0.949,
     archivo: null,
   });
 
@@ -19,7 +19,7 @@ const AnalisisForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Datos enviados:", formData);
+    console.log("Datos enviados:", { ...formData, usuario });
     // acá podrías mandar formData a un backend o procesar el csv
   };
 
@@ -27,36 +27,40 @@ const AnalisisForm = () => {
     <form className="analisis-form" onSubmit={handleSubmit}>
       <h2>Formulario de Análisis</h2>
 
+      <div className="usuario-info">
+        <strong>Usuario:</strong> {usuario || "Invitado"}
+      </div>
+
       <label>
-        Número 1:
+        Área de los especímenes (mm²):
         <input
           type="number"
-          name="numero1"
-          value={formData.numero1}
+          name="area"
+          value={formData.area}
           onChange={handleChange}
           required
         />
       </label>
 
       <label>
-        Número 2:
+        Distancia entre mordazas (mm):
         <input
           type="number"
-          name="numero2"
-          value={formData.numero2}
+          name="distancia"
+          value={formData.distancia}
           onChange={handleChange}
           required
         />
       </label>
 
       <label>
-        Número 3:
+        Constante:
         <input
           type="number"
-          name="numero3"
-          value={formData.numero3}
+          step="0.001"
+          name="constante"
+          value={formData.constante}
           onChange={handleChange}
-          required
         />
       </label>
 

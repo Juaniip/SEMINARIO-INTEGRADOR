@@ -1,0 +1,68 @@
+/* Fondo y centrado de la página */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* altura completa de la ventana */
+    background-color: #f0f2f5;
+    font-family: Arial, sans-serif;
+}
+
+/* Título */
+.page-container h1 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 2rem;
+}
+
+/* Formulario */
+.page-container form {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: 300px;
+}
+
+/* Inputs */
+.page-container input {
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+/* Inputs: enfoque */
+.page-container input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0,123,255,0.5);
+}
+
+/* Botón */
+.page-container button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.page-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Mensaje de error */
+.page-container p {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: red;
+    text-align: center;
+}

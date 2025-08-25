@@ -9,10 +9,13 @@ const Navbar = ({ isAuthenticated }) => {
         {isAuthenticated && <Link to="/analisis" className="link">Analisis</Link>}
         {isAuthenticated && <Link to="/registros" className="link">Registros</Link>}
         <Link to="/contacto" className="link">Contacto</Link>
-        <Link to="/login" className="link">Iniciar Sesion</Link>
+
+        {/* Mostramos "Iniciar Sesión" solo si NO está autenticado */}
+        {!isAuthenticated && <Link to="/login" className="link">Iniciar Sesion</Link>}
       </div>
     </nav>
   );
 };
 
 export default Navbar;
+

@@ -1,0 +1,31 @@
+.registros-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  text-align: center;
+}
+
+.registros-container h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #222;
+}
+
+.opciones {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.registro-btn {
+  display: block;
+  padding: 0.8rem;
+  text-decoration: none;
+  background-color: #0077ff;
+  color: white;
+  border-radius: 8px;
+  transition: background 0.2s ease-in-out;
+}
+
+.registro-btn:hover {
+  background-color: #005fcc;
+}

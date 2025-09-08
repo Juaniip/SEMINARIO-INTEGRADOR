@@ -1,0 +1,212 @@
+/* ReporteAnalisis.css */
+
+.reporte-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.reporte-header {
+  text-align: center;
+  border-bottom: 3px solid #007bff;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+.reporte-header h1 {
+  color: #333;
+  margin: 0 0 10px 0;
+  font-size: 28px;
+}
+
+.header-info {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  color: #666;
+  font-size: 14px;
+}
+
+.acciones-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.botones-descarga {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.btn-volver {
+  background: #6c757d;
+  color: white;
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.btn-volver:hover {
+  background: #5a6268;
+  color: white;
+  text-decoration: none;
+}
+
+.btn-descargar {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.btn-descargar:hover {
+  background: #0056b3;
+}
+
+.btn-pdf {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(220,53,69,0.3);
+}
+
+.btn-pdf:hover {
+  background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220,53,69,0.4);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.info-section {
+  background: #f8f9fa;
+  padding: 25px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.info-section h3 {
+  color: #007bff;
+  margin: 0 0 20px 0;
+  font-size: 18px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 8px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 0;
+  padding: 8px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.label {
+  font-weight: bold;
+  color: #495057;
+}
+
+.value {
+  color: #333;
+  text-align: right;
+}
+
+.resultados {
+  background: linear-gradient(135deg, #e8f5e8 0%, #f0fff0 100%);
+  border: 2px solid #28a745;
+}
+
+.resultados h3 {
+  color: #28a745;
+  border-bottom-color: #28a745;
+}
+
+.resultado-destacado {
+  text-align: center;
+  margin: 20px 0;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.resultado-valor {
+  font-size: 24px;
+  font-weight: bold;
+  color: #28a745;
+  margin-bottom: 5px;
+}
+
+.resultado-label {
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.grafica-container {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border: 1px solid #e9ecef;
+}
+
+.grafica-container h3 {
+  text-align: center;
+  color: #333;
+  margin: 0 0 20px 0;
+  font-size: 20px;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 500px;
+  width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .header-info {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .acciones-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .chart-wrapper {
+    height: 400px;
+  }
+}

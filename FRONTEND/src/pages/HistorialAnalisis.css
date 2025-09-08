@@ -1,0 +1,324 @@
+/* HistorialAnalisis.css - Estilos específicos con alta prioridad */
+
+.historial-container {
+  padding: 20px !important;
+  max-width: 100% !important;
+  background: white !important;
+}
+
+.historial-container h2 {
+  text-align: center !important;
+  color: #333 !important;
+  margin-bottom: 30px !important;
+  font-size: 28px !important;
+  font-weight: bold !important;
+}
+
+.filtros-container {
+  background: #f8f9fa !important;
+  padding: 20px !important;
+  border-radius: 8px !important;
+  margin-bottom: 25px !important;
+  border: 1px solid #dee2e6 !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.filtros-container h4 {
+  margin: 0 0 15px 0 !important;
+  color: #333 !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+
+.filtros-botones {
+  display: flex !important;
+  gap: 10px !important;
+  flex-wrap: wrap !important;
+}
+
+.filtro-btn {
+  padding: 10px 15px !important;
+  border: 2px solid #007bff !important;
+  background: white !important;
+  color: #007bff !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+  white-space: nowrap !important;
+  outline: none !important;
+}
+
+.filtro-btn:hover {
+  background: #e7f3ff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 4px rgba(0,123,255,0.2) !important;
+}
+
+.filtro-btn.activo {
+  background: #007bff !important;
+  color: white !important;
+  box-shadow: 0 2px 6px rgba(0,123,255,0.3) !important;
+  border-color: #0056b3 !important;
+}
+
+.tabla-responsive {
+  width: 100% !important;
+  overflow-x: auto !important;
+  margin: 25px 0 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+  border: 1px solid #dee2e6 !important;
+  background: white !important;
+}
+
+.tabla-analisis {
+  width: 100% !important;
+  min-width: 1400px !important;
+  border-collapse: collapse !important;
+  background: white !important;
+  font-size: 13px !important;
+  margin: 0 !important;
+}
+
+.tabla-analisis th {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+  color: white !important;
+  font-weight: 700 !important;
+  padding: 15px 10px !important;
+  text-align: center !important;
+  border-bottom: 2px solid #0056b3 !important;
+  font-size: 13px !important;
+  white-space: nowrap !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 10 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.tabla-analisis td {
+  padding: 12px 8px !important;
+  border-bottom: 1px solid #f1f3f4 !important;
+  font-size: 12px !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+  background: white !important;
+}
+
+.tabla-analisis tbody tr {
+  transition: background-color 0.2s ease !important;
+}
+
+.tabla-analisis tbody tr:hover {
+  background-color: #f8f9fa !important;
+}
+
+.tabla-analisis tbody tr:nth-child(even) {
+  background-color: #fafbfc !important;
+}
+
+.tabla-analisis tbody tr:nth-child(even):hover {
+  background-color: #f0f2f5 !important;
+}
+
+/* Columnas específicas */
+.tabla-analisis td:nth-child(1) { /* ID */
+  font-weight: bold !important;
+  color: #007bff !important;
+  min-width: 50px !important;
+  font-size: 14px !important;
+}
+
+.tabla-analisis td:nth-child(2) { /* Fecha */
+  min-width: 130px !important;
+  font-size: 11px !important;
+  color: #666 !important;
+}
+
+.tabla-analisis td:nth-child(3) { /* Usuario */
+  min-width: 100px !important;
+  font-weight: 500 !important;
+  color: #333 !important;
+}
+
+.tabla-analisis td:nth-child(4) { /* Archivo */
+  max-width: 150px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  color: #495057 !important;
+}
+
+.tabla-analisis td:nth-child(5), /* Área */
+.tabla-analisis td:nth-child(6), /* Distancia */
+.tabla-analisis td:nth-child(7), /* Tensión */
+.tabla-analisis td:nth-child(8), /* Elongación */
+.tabla-analisis td:nth-child(9) { /* Módulo */
+  min-width: 90px !important;
+  font-family: 'Courier New', monospace !important;
+  font-weight: 500 !important;
+  color: #333 !important;
+}
+
+.tabla-analisis td:nth-child(10) { /* Acciones */
+  min-width: 140px !important;
+  padding: 8px !important;
+}
+
+.acciones-container {
+  display: flex !important;
+  gap: 8px !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+}
+
+.btn-accion {
+  padding: 8px 10px !important;
+  border: none !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  font-size: 16px !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.3s ease !important;
+  min-width: 36px !important;
+  height: 36px !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+  outline: none !important;
+}
+
+.btn-accion:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+}
+
+.btn-descargar {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+  color: white !important;
+}
+
+.btn-descargar:hover {
+  background: linear-gradient(135deg, #0056b3 0%, #004085 100%) !important;
+  color: white !important;
+}
+
+.btn-reporte {
+  background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%) !important;
+  color: white !important;
+}
+
+.btn-reporte:hover {
+  background: linear-gradient(135deg, #1e7e34 0%, #155724 100%) !important;
+  color: white !important;
+  text-decoration: none !important;
+}
+
+.btn-eliminar {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+  color: white !important;
+}
+
+.btn-eliminar:hover {
+  background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%) !important;
+  color: white !important;
+}
+
+.btn-actualizar {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+  color: white !important;
+  border: none !important;
+  padding: 12px 25px !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  margin-top: 25px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 4px rgba(0,123,255,0.3) !important;
+  outline: none !important;
+}
+
+.btn-actualizar:hover {
+  background: linear-gradient(135deg, #0056b3 0%, #004085 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0,123,255,0.4) !important;
+}
+
+/* Estados especiales */
+.loading-message,
+.error-message {
+  text-align: center !important;
+  padding: 40px 20px !important;
+  font-size: 16px !important;
+  border-radius: 8px !important;
+  margin: 20px 0 !important;
+}
+
+.error-message {
+  color: #dc3545 !important;
+  background: #f8d7da !important;
+  border: 1px solid #f5c6cb !important;
+}
+
+.no-data-message {
+  text-align: center !important;
+  padding: 60px 20px !important;
+  color: #6c757d !important;
+  font-size: 16px !important;
+  background: #f8f9fa !important;
+  border-radius: 8px !important;
+  margin: 20px 0 !important;
+  border: 1px solid #e9ecef !important;
+}
+
+.no-data-message h3 {
+  color: #495057 !important;
+  margin-bottom: 10px !important;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .tabla-analisis {
+    min-width: 1200px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .historial-container {
+    padding: 15px !important;
+  }
+  
+  .filtros-botones {
+    flex-direction: column !important;
+  }
+  
+  .filtro-btn {
+    text-align: center !important;
+    margin: 2px 0 !important;
+  }
+  
+  .tabla-analisis {
+    min-width: 1000px !important;
+    font-size: 11px !important;
+  }
+  
+  .tabla-analisis th,
+  .tabla-analisis td {
+    padding: 8px 4px !important;
+  }
+  
+  .btn-accion {
+    min-width: 32px !important;
+    height: 32px !important;
+    font-size: 14px !important;
+  }
+  
+  .acciones-container {
+    gap: 4px !important;
+  }
+}

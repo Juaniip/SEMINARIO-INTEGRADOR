@@ -15,6 +15,7 @@
 .links {
   display: flex;
   gap: 1rem;
+  align-items: center; /* Asegura que todos los elementos estén centrados verticalmente */
 }
 
 .link {
@@ -23,5 +24,32 @@
 }
 
 .link:hover {
+  text-decoration: underline;
+}
+
+/* Nuevos estilos para la sección de usuario */
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Mantiene la misma separación que otros enlaces */
+}
+
+.user-name {
+  font-size: inherit;
+  color: white;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: inherit;
+  text-decoration: none;
+  padding: 0;
+  font-family: inherit;
+}
+
+.logout-btn:hover {
   text-decoration: underline;
 }

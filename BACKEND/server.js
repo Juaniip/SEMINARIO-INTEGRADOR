@@ -43,10 +43,20 @@ db.serialize(() => {
     fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
   )`);
 
-  // Tabla de análisis
+  // Tabla de carpetas
+  db.run(`CREATE TABLE IF NOT EXISTS carpetas (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT NOT NULL,
+    usuario_id INTEGER,
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(usuario_id) REFERENCES usuarios(id)
+  )`);
+
+  // Tabla de análisis (actualizada con carpeta_id)
   db.run(`CREATE TABLE IF NOT EXISTS analisis (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     usuario_id INTEGER,
+    carpeta_id INTEGER,
     area REAL NOT NULL,
     distancia REAL NOT NULL,
     constante REAL DEFAULT 0.949,
@@ -57,8 +67,55 @@ db.serialize(() => {
     elongacion_ruptura REAL,
     modulo_young REAL,
     fecha_analisis DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY(usuario_id) REFERENCES usuarios(id)
+    FOREIGN KEY(usuario_id) REFERENCES usuarios(id),
+    FOREIGN KEY(carpeta_id) REFERENCES carpetas(id)
   )`);
+
+  // MIGRACIÓN: Verificar y agregar carpeta_id si no existe
+  db.all(`PRAGMA table_info(analisis)`, [], (err, columns) => {
+    if (err) {
+      console.error('Error al obtener info de tabla analisis:', err);
+      return;
+    }
+    
+    const tieneCarpetaId = columns.some(col => col.name === 'carpeta_id');
+    
+    if (!tieneCarpetaId) {
+      console.log('Agregando columna carpeta_id a tabla analisis...');
+      
+      // Agregar la columna
+      db.run(`ALTER TABLE analisis ADD COLUMN carpeta_id INTEGER`, function(err) {
+        if (err) {
+          console.error('Error al agregar columna carpeta_id:', err);
+        } else {
+          console.log('✅ Columna carpeta_id agregada exitosamente');
+          
+          // Obtener la carpeta "General" para asignar análisis existentes
+          setTimeout(() => {
+            db.get(`SELECT id FROM carpetas WHERE nombre = 'General' LIMIT 1`, [], (err, carpetaGeneral) => {
+              if (err) {
+                console.error('Error al buscar carpeta General:', err);
+                return;
+              }
+              
+              if (carpetaGeneral) {
+                // Asignar todos los análisis existentes a la carpeta General
+                db.run(`UPDATE analisis SET carpeta_id = ? WHERE carpeta_id IS NULL`, [carpetaGeneral.id], function(err) {
+                  if (err) {
+                    console.error('Error al actualizar análisis existentes:', err);
+                  } else if (this.changes > 0) {
+                    console.log(`✅ ${this.changes} análisis asignados a carpeta General`);
+                  }
+                });
+              }
+            });
+          }, 1000); // Esperar a que se cree el usuario y carpeta
+        }
+      });
+    } else {
+      console.log('✅ Columna carpeta_id ya existe');
+    }
+  });
 
   // Insertar usuario por defecto si no existe
   const hashedPassword = bcrypt.hashSync('UTN2025SEM', 10);
@@ -69,6 +126,18 @@ db.serialize(() => {
         console.error('Error al crear usuario por defecto:', err.message);
       } else if (this.changes > 0) {
         console.log('Usuario por defecto creado: investigador');
+        
+        // Crear carpeta por defecto "General"
+        db.run(`INSERT OR IGNORE INTO carpetas (nombre, usuario_id) VALUES (?, ?)`,
+          ['General', this.lastID],
+          function(err) {
+            if (err) {
+              console.error('Error al crear carpeta por defecto:', err.message);
+            } else if (this.changes > 0) {
+              console.log('Carpeta por defecto creada: General');
+            }
+          }
+        );
       }
     }
   );
@@ -253,13 +322,14 @@ app.get('/api/verify-token', verificarToken, (req, res) => {
   });
 });
 
-// Rutas para análisis - CON DEBUGGING INCLUIDO
+// Rutas para análisis - CON DEBUGGING INCLUIDO Y CARPETA_ID
 app.post('/api/analisis', verificarToken, (req, res) => {
-  const { area, distancia, constante, archivo_nombre, archivo_datos } = req.body;
+  const { area, distancia, constante, archivo_nombre, archivo_datos, carpeta_id } = req.body;
   
   // DEBUGGING: Verificar qué datos recibimos
   console.log('=== DEBUGGING ANÁLISIS ===');
   console.log('Archivo nombre:', archivo_nombre);
+  console.log('Carpeta ID:', carpeta_id);
   console.log('Tipo de archivo_datos:', typeof archivo_datos);
   console.log('Primeros 200 caracteres recibidos:', archivo_datos.substring(0, 200));
   console.log('¿Es JSON?', archivo_datos.startsWith('[') || archivo_datos.startsWith('{'));
@@ -271,6 +341,10 @@ app.post('/api/analisis', verificarToken, (req, res) => {
 
   if (!archivo_datos) {
     return res.status(400).json({ error: 'Archivo CSV es requerido' });
+  }
+
+  if (!carpeta_id) {
+    return res.status(400).json({ error: 'Carpeta es requerida' });
   }
 
   // Verificar que recibimos CSV, no JSON
@@ -302,15 +376,17 @@ app.post('/api/analisis', verificarToken, (req, res) => {
     console.log('=== GUARDANDO EN BD ===');
     console.log('Guardando archivo original (primeros 100 chars):', archivo_datos.substring(0, 100));
     console.log('Guardando datos procesados (cantidad de puntos):', resultados.datos_procesados.length);
+    console.log('Guardando en carpeta ID:', carpeta_id);
 
     // Guardar en base de datos
     // CRÍTICO: archivo_datos = CSV ORIGINAL, datos_procesados = JSON para gráficas
     db.run(`INSERT INTO analisis (
-      usuario_id, area, distancia, constante, archivo_nombre, archivo_datos, datos_procesados,
+      usuario_id, carpeta_id, area, distancia, constante, archivo_nombre, archivo_datos, datos_procesados,
       tension_maxima, elongacion_ruptura, modulo_young
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, 
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, 
     [
       req.usuario.id, 
+      carpeta_id,
       area_final, 
       distancia, 
       constante || 0.949, 
@@ -348,6 +424,138 @@ app.post('/api/analisis', verificarToken, (req, res) => {
       error: 'Error al procesar el archivo CSV: ' + error.message 
     });
   }
+});
+
+// NUEVOS ENDPOINTS PARA CARPETAS
+
+// Obtener todas las carpetas del usuario
+app.get('/api/carpetas', verificarToken, (req, res) => {
+  console.log('=== DEBUG CARPETAS ===');
+  console.log('Usuario ID:', req.usuario.id);
+  
+  db.all(`
+    SELECT c.*, COUNT(a.id) as total_analisis
+    FROM carpetas c
+    LEFT JOIN analisis a ON c.id = a.carpeta_id
+    WHERE c.usuario_id = ?
+    GROUP BY c.id
+    ORDER BY c.nombre ASC
+  `, [req.usuario.id], (err, rows) => {
+    if (err) {
+      console.error('Error al obtener carpetas:', err.message);
+      return res.status(500).json({ error: 'Error al obtener carpetas: ' + err.message });
+    }
+
+    console.log('Carpetas encontradas:', rows);
+    res.json(rows);
+  });
+});
+
+// Crear nueva carpeta
+app.post('/api/carpetas', verificarToken, (req, res) => {
+  const { nombre } = req.body;
+
+  if (!nombre || nombre.trim().length === 0) {
+    return res.status(400).json({ error: 'El nombre de la carpeta es requerido' });
+  }
+
+  const nombreLimpio = nombre.trim();
+
+  // Verificar que no existe una carpeta con el mismo nombre para este usuario
+  db.get('SELECT id FROM carpetas WHERE nombre = ? AND usuario_id = ?', [nombreLimpio, req.usuario.id], (err, row) => {
+    if (err) {
+      console.error('Error al verificar carpeta:', err.message);
+      return res.status(500).json({ error: 'Error interno del servidor' });
+    }
+
+    if (row) {
+      return res.status(400).json({ error: 'Ya existe una carpeta con ese nombre' });
+    }
+
+    // Crear la carpeta
+    db.run('INSERT INTO carpetas (nombre, usuario_id) VALUES (?, ?)', [nombreLimpio, req.usuario.id], function(err) {
+      if (err) {
+        console.error('Error al crear carpeta:', err.message);
+        return res.status(500).json({ error: 'Error al crear carpeta' });
+      }
+
+      console.log('Carpeta creada con ID:', this.lastID);
+      res.json({
+        message: 'Carpeta creada exitosamente',
+        id: this.lastID,
+        nombre: nombreLimpio
+      });
+    });
+  });
+});
+
+// Eliminar carpeta (solo si está vacía)
+app.delete('/api/carpetas/:id', verificarToken, (req, res) => {
+  const { id } = req.params;
+  const usuarioId = req.usuario.id;
+
+  // Verificar que la carpeta existe y pertenece al usuario
+  db.get('SELECT * FROM carpetas WHERE id = ? AND usuario_id = ?', [id, usuarioId], (err, carpeta) => {
+    if (err) {
+      console.error('Error al verificar carpeta:', err.message);
+      return res.status(500).json({ error: 'Error interno del servidor' });
+    }
+
+    if (!carpeta) {
+      return res.status(404).json({ error: 'Carpeta no encontrada' });
+    }
+
+    // No permitir eliminar la carpeta "General"
+    if (carpeta.nombre === 'General') {
+      return res.status(400).json({ error: 'No se puede eliminar la carpeta General' });
+    }
+
+    // Verificar que no tenga análisis
+    db.get('SELECT COUNT(*) as count FROM analisis WHERE carpeta_id = ?', [id], (err, result) => {
+      if (err) {
+        console.error('Error al contar análisis:', err.message);
+        return res.status(500).json({ error: 'Error interno del servidor' });
+      }
+
+      if (result.count > 0) {
+        return res.status(400).json({ 
+          error: `No se puede eliminar la carpeta porque contiene ${result.count} análisis. Mueve o elimina los análisis primero.` 
+        });
+      }
+
+      // Eliminar la carpeta
+      db.run('DELETE FROM carpetas WHERE id = ?', [id], function(err) {
+        if (err) {
+          console.error('Error al eliminar carpeta:', err.message);
+          return res.status(500).json({ error: 'Error al eliminar carpeta' });
+        }
+
+        console.log('Carpeta eliminada ID:', id);
+        res.json({ message: 'Carpeta eliminada exitosamente' });
+      });
+    });
+  });
+});
+
+// Obtener análisis de una carpeta específica
+app.get('/api/carpetas/:id/analisis', verificarToken, (req, res) => {
+  const { id } = req.params;
+
+  db.all(`
+    SELECT a.*, u.usuario as nombre_usuario, c.nombre as nombre_carpeta
+    FROM analisis a 
+    JOIN usuarios u ON a.usuario_id = u.id 
+    JOIN carpetas c ON a.carpeta_id = c.id
+    WHERE a.carpeta_id = ? AND c.usuario_id = ?
+    ORDER BY a.fecha_analisis DESC
+  `, [id, req.usuario.id], (err, rows) => {
+    if (err) {
+      console.error('Error al obtener análisis de carpeta:', err.message);
+      return res.status(500).json({ error: 'Error al obtener análisis de carpeta' });
+    }
+
+    res.json(rows);
+  });
 });
 
 // Descargar archivo CSV original (crudo) - CORREGIDO
@@ -492,8 +700,42 @@ app.get('/api/analisis', verificarToken, (req, res) => {
   });
 });
 
-// Obtener datos relevantes - CAMBIADO a tabla individual por análisis
+// Obtener datos relevantes por carpetas
 app.get('/api/datos-relevantes', verificarToken, (req, res) => {
+  // Obtener estadísticas por carpeta
+  db.all(`
+    SELECT 
+      c.id as carpeta_id,
+      c.nombre as carpeta_nombre,
+      COUNT(a.id) as total_analisis,
+      AVG(a.tension_maxima) as avg_tension,
+      AVG(a.elongacion_ruptura) as avg_elongacion,
+      AVG(a.modulo_young) as avg_modulo,
+      MAX(a.tension_maxima) as max_tension,
+      MAX(a.elongacion_ruptura) as max_elongacion,
+      MAX(a.modulo_young) as max_modulo,
+      MIN(a.tension_maxima) as min_tension,
+      MIN(a.elongacion_ruptura) as min_elongacion,
+      MIN(a.modulo_young) as min_modulo
+    FROM carpetas c
+    LEFT JOIN analisis a ON c.id = a.carpeta_id
+    WHERE c.usuario_id = ?
+    GROUP BY c.id, c.nombre
+    ORDER BY c.nombre ASC
+  `, [req.usuario.id], (err, carpetas) => {
+    if (err) {
+      console.error('Error al obtener datos relevantes por carpetas:', err.message);
+      return res.status(500).json({ error: 'Error al obtener datos relevantes: ' + err.message });
+    }
+
+    res.json(carpetas);
+  });
+});
+
+// Obtener análisis individuales de una carpeta
+app.get('/api/datos-relevantes/:carpeta_id', verificarToken, (req, res) => {
+  const { carpeta_id } = req.params;
+
   db.all(`
     SELECT 
       a.id,
@@ -501,14 +743,17 @@ app.get('/api/datos-relevantes', verificarToken, (req, res) => {
       a.tension_maxima,
       a.elongacion_ruptura,
       a.modulo_young,
-      u.usuario as nombre_usuario
+      u.usuario as nombre_usuario,
+      c.nombre as carpeta_nombre
     FROM analisis a 
     JOIN usuarios u ON a.usuario_id = u.id 
+    JOIN carpetas c ON a.carpeta_id = c.id
+    WHERE a.carpeta_id = ? AND c.usuario_id = ?
     ORDER BY a.fecha_analisis DESC
-  `, [], (err, rows) => {
+  `, [carpeta_id, req.usuario.id], (err, rows) => {
     if (err) {
-      console.error('Error al obtener datos relevantes:', err.message);
-      return res.status(500).json({ error: 'Error al obtener datos relevantes' });
+      console.error('Error al obtener análisis de carpeta:', err.message);
+      return res.status(500).json({ error: 'Error al obtener análisis de carpeta' });
     }
 
     res.json(rows);

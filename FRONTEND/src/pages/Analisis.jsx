@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./AnalisisForm.css";
 
 const AnalisisForm = ({ usuario }) => {
@@ -7,10 +7,42 @@ const AnalisisForm = ({ usuario }) => {
     distancia: "",
     constante: 0.949,
     archivo: null,
+    carpeta_id: "", // Nuevo campo
   });
+  const [carpetas, setCarpetas] = useState([]); // Estado para carpetas
   const [resultados, setResultados] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // Cargar carpetas al montar el componente
+  useEffect(() => {
+    cargarCarpetas();
+  }, []);
+
+  const cargarCarpetas = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      const response = await fetch('http://localhost:5000/api/carpetas', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setCarpetas(data);
+        // Seleccionar automáticamente la carpeta "General" si existe
+        const carpetaGeneral = data.find(c => c.nombre === 'General');
+        if (carpetaGeneral) {
+          setFormData(prev => ({ ...prev, carpeta_id: carpetaGeneral.id }));
+        }
+      }
+    } catch (error) {
+      console.error('Error al cargar carpetas:', error);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -54,6 +86,12 @@ const AnalisisForm = ({ usuario }) => {
         return;
       }
 
+      if (!formData.carpeta_id) {
+        setError("Por favor selecciona una carpeta");
+        setLoading(false);
+        return;
+      }
+
       // Leer el archivo original sin procesar
       const archivoOriginal = await leerArchivoOriginal(formData.archivo);
 
@@ -75,6 +113,7 @@ const AnalisisForm = ({ usuario }) => {
         area: formData.area,
         distancia: formData.distancia,
         constante: formData.constante,
+        carpeta_id: formData.carpeta_id,
         archivo_nombre: formData.archivo.name,
         archivo_datos_tipo: typeof archivoOriginal,
         archivo_datos_preview: archivoOriginal.substring(0, 100)
@@ -90,6 +129,7 @@ const AnalisisForm = ({ usuario }) => {
           area: formData.area ? parseFloat(formData.area) : null,
           distancia: parseFloat(formData.distancia),
           constante: parseFloat(formData.constante),
+          carpeta_id: parseInt(formData.carpeta_id),
           archivo_nombre: formData.archivo.name,
           archivo_datos: archivoOriginal // ← ARCHIVO CSV ORIGINAL COMO STRING
         })
@@ -107,6 +147,7 @@ const AnalisisForm = ({ usuario }) => {
           distancia: "",
           constante: 0.949,
           archivo: null,
+          carpeta_id: formData.carpeta_id, // Mantener la carpeta seleccionada
         });
         // Limpiar input de archivo
         const fileInput = document.querySelector('input[type="file"]');
@@ -144,6 +185,35 @@ const AnalisisForm = ({ usuario }) => {
             {error}
           </div>
         )}
+
+        <div className="form-group">
+          <label>
+            Carpeta: *
+            <select
+              name="carpeta_id"
+              value={formData.carpeta_id}
+              onChange={handleChange}
+              required
+              style={{
+                display: 'block',
+                width: '100%',
+                marginTop: '0.4rem',
+                padding: '0.6rem',
+                fontSize: '0.95rem',
+                border: '1px solid #ccc',
+                borderRadius: '6px',
+                backgroundColor: 'white'
+              }}
+            >
+              <option value="">Selecciona una carpeta</option>
+              {carpetas.map(carpeta => (
+                <option key={carpeta.id} value={carpeta.id}>
+                  {carpeta.nombre} ({carpeta.total_analisis} análisis)
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
 
         <div className="form-group">
           <label>

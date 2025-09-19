@@ -322,3 +322,162 @@
     gap: 4px !important;
   }
 }
+/* Estilos adicionales para HistorialAnalisis.jsx */
+/* Agrega estos estilos a tu HistorialAnalisis.css existente */
+
+/* Contenedor de carpetas */
+.carpetas-container {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  border: 1px solid #dee2e6;
+}
+
+.carpetas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.carpetas-header h4 {
+  margin: 0;
+  color: #333;
+}
+
+.btn-nueva-carpeta {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-nueva-carpeta:hover {
+  background: #218838;
+}
+
+/* Formulario nueva carpeta */
+.form-nueva-carpeta {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.input-carpeta {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-crear-carpeta {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-crear-carpeta:hover {
+  background: #0056b3;
+}
+
+/* Lista de carpetas */
+.carpetas-lista {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.carpeta-item {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.3s ease;
+}
+
+.carpeta-item:hover {
+  border-color: #007bff;
+  box-shadow: 0 2px 4px rgba(0,123,255,0.2);
+}
+
+.carpeta-item.selected {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.carpeta-nombre {
+  cursor: pointer;
+}
+
+.btn-eliminar-carpeta {
+  background: transparent;
+  border: none;
+  color: inherit;
+  margin-left: 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/* Carpeta actual */
+.carpeta-actual {
+  background: #e3f2fd;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  text-align: center;
+  border: 1px solid #90caf9;
+}
+
+/* Columnas específicas de la tabla */
+.id-column {
+  font-weight: bold;
+  color: #007bff;
+  min-width: 50px;
+  font-size: 14px;
+}
+
+.fecha-column {
+  min-width: 130px;
+  font-size: 11px;
+  color: #666;
+}
+
+.usuario-column {
+  min-width: 100px;
+  font-weight: 500;
+  color: #333;
+}
+
+.archivo-column {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #495057;
+}
+
+.numero-column {
+  min-width: 90px;
+  font-family: 'Courier New', monospace;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Acciones */
+.acciones-container {
+  min-width: 140px;
+  padding: 8px;
+}

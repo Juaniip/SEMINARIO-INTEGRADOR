@@ -51,10 +51,9 @@ const HistorialAnalisis = () => {
 
       if (response.ok) {
         setCarpetas(data);
-        // Seleccionar automáticamente la carpeta "General" si existe
-        const carpetaGeneral = data.find(c => c.nombre === 'General');
-        if (carpetaGeneral) {
-          setCarpetaSeleccionada(carpetaGeneral);
+        // Seleccionar automáticamente la primera carpeta disponible si existe
+        if (data.length > 0) {
+          setCarpetaSeleccionada(data[0]);
         }
       } else {
         setError(data.error || 'Error al cargar carpetas');
@@ -126,11 +125,6 @@ const HistorialAnalisis = () => {
   };
 
   const eliminarCarpeta = async (carpetaId, nombreCarpeta) => {
-    if (nombreCarpeta === 'General') {
-      alert('No se puede eliminar la carpeta General');
-      return;
-    }
-
     if (!window.confirm(`¿Estás seguro de que quieres eliminar la carpeta "${nombreCarpeta}"? Solo se puede eliminar si está vacía.`)) {
       return;
     }
@@ -147,10 +141,10 @@ const HistorialAnalisis = () => {
       if (response.ok) {
         alert('Carpeta eliminada exitosamente');
         cargarCarpetas();
-        // Si eliminamos la carpeta seleccionada, volver a General
+        // Si eliminamos la carpeta seleccionada, volver a la primera disponible
         if (carpetaSeleccionada?.id === carpetaId) {
-          const carpetaGeneral = carpetas.find(c => c.nombre === 'General');
-          setCarpetaSeleccionada(carpetaGeneral || null);
+          const otrasCarpetas = carpetas.filter(c => c.id !== carpetaId);
+          setCarpetaSeleccionada(otrasCarpetas.length > 0 ? otrasCarpetas[0] : null);
         }
       } else {
         const data = await response.json();

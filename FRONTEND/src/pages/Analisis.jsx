@@ -33,10 +33,9 @@ const AnalisisForm = ({ usuario }) => {
       if (response.ok) {
         const data = await response.json();
         setCarpetas(data);
-        // Seleccionar automáticamente la carpeta "General" si existe
-        const carpetaGeneral = data.find(c => c.nombre === 'General');
-        if (carpetaGeneral) {
-          setFormData(prev => ({ ...prev, carpeta_id: carpetaGeneral.id }));
+        // Seleccionar automáticamente la primera carpeta disponible si existe
+        if (data.length > 0) {
+          setFormData(prev => ({ ...prev, carpeta_id: data[0].id }));
         }
       }
     } catch (error) {

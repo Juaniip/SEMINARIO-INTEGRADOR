@@ -1,0 +1,379 @@
+/* AdminUsuarios.css */
+
+.admin-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  border-radius: 10px;
+  color: white;
+}
+
+.admin-header h2 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.btn-nuevo-usuario {
+  background: white;
+  color: #667eea;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.btn-nuevo-usuario:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Formulario */
+.formulario-container {
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  border: 2px solid #667eea;
+}
+
+.formulario-container h3 {
+  margin-top: 0;
+  color: #667eea;
+  font-size: 22px;
+}
+
+.form-usuario {
+  max-width: 600px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-help {
+  display: block;
+  margin-top: 5px;
+  color: #666;
+  font-size: 12px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.btn-crear {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-crear:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
+}
+
+.btn-cancelar {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-cancelar:hover {
+  background: #5a6268;
+}
+
+/* Información del usuario actual */
+.info-actual {
+  background: #e3f2fd;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border-left: 4px solid #2196f3;
+  font-size: 14px;
+}
+
+/* Tabla */
+.tabla-responsive {
+  overflow-x: auto;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border: 1px solid #dee2e6;
+}
+
+.tabla-usuarios {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  font-size: 14px;
+}
+
+.tabla-usuarios th {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  padding: 15px;
+  text-align: left;
+  border-bottom: 2px solid #764ba2;
+  white-space: nowrap;
+}
+
+.tabla-usuarios td {
+  padding: 15px;
+  border-bottom: 1px solid #f1f3f4;
+}
+
+.tabla-usuarios tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.tabla-usuarios tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.tabla-usuarios tbody tr:nth-child(even) {
+  background-color: #fafbfc;
+}
+
+.tabla-usuarios tbody tr:nth-child(even):hover {
+  background-color: #f0f2f5;
+}
+
+/* Columnas específicas */
+.id-column {
+  font-weight: bold;
+  color: #667eea;
+  width: 60px;
+}
+
+.usuario-column {
+  font-weight: 600;
+  color: #333;
+  min-width: 150px;
+}
+
+.fecha-column {
+  color: #666;
+  font-size: 12px;
+  min-width: 180px;
+}
+
+/* Badge de rol */
+.badge-rol {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-rol.administrador {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+}
+
+.badge-rol.usuario {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+}
+
+/* Acciones */
+.acciones-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-eliminar {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-eliminar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220,53,69,0.4);
+}
+
+.texto-protegido {
+  color: #28a745;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Información de usuarios */
+.usuarios-info {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #dee2e6;
+}
+
+.usuarios-info p {
+  margin: 5px 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.usuarios-info strong {
+  color: #667eea;
+}
+
+/* Botón actualizar */
+.btn-actualizar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(102,126,234,0.3);
+  width: 100%;
+}
+
+.btn-actualizar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(102,126,234,0.4);
+}
+
+/* Error de acceso */
+.error-acceso {
+  text-align: center;
+  padding: 60px 20px;
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  border-radius: 10px;
+  margin: 40px auto;
+  max-width: 600px;
+}
+
+.error-acceso h2 {
+  color: #856404;
+  margin-bottom: 15px;
+}
+
+.error-acceso p {
+  color: #856404;
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+/* Estados */
+.loading-message,
+.error-message {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.error-message {
+  color: #dc3545;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+}
+
+.btn-reintentar {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.btn-reintentar:hover {
+  background: #0056b3;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn-crear,
+  .btn-cancelar {
+    width: 100%;
+  }
+
+  .tabla-usuarios {
+    font-size: 12px;
+  }
+
+  .tabla-usuarios th,
+  .tabla-usuarios td {
+    padding: 10px 8px;
+  }
+}

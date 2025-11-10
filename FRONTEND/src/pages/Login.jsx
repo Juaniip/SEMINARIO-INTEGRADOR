@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Login.css";
 
 const Login = ({ onLogin }) => {
   const navigate = useNavigate();
@@ -39,8 +40,8 @@ const Login = ({ onLogin }) => {
         localStorage.setItem('token', data.token);
         localStorage.setItem('usuario', JSON.stringify(data.usuario));
         
-        // Llamar a la función onLogin del componente padre
-        onLogin(data.usuario.usuario);
+        // Llamar a la función onLogin del componente padre con datos completos
+        onLogin(data.usuario.usuario, data.usuario);
         
         // Navegar a la página principal
         navigate("/");
@@ -131,7 +132,7 @@ const Login = ({ onLogin }) => {
       
       <div style={{ marginTop: '20px', fontSize: '14px', color: '#666' }}>
         <p><strong>Usuario de prueba:</strong></p>
-        <p>Usuario: investigador</p>
+        <p>Usuario: FORPW</p>
         <p>Contraseña: UTN2025SEM</p>
       </div>
     </div>

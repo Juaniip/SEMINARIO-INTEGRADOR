@@ -1,55 +1,284 @@
+/* Navbar.css - Diseño completo y moderno */
+
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: #282c34;
-  color: white;
-}
-
-.logo {
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-
-.links {
-  display: flex;
-  gap: 1rem;
-  align-items: center; /* Asegura que todos los elementos estén centrados verticalmente */
-}
-
-.link {
-  color: white;
-  text-decoration: none;
-}
-
-.link:hover {
-  text-decoration: underline;
-}
-
-/* Nuevos estilos para la sección de usuario */
-.user-section {
-  display: flex;
-  align-items: center;
-  gap: 1rem; /* Mantiene la misma separación que otros enlaces */
-}
-
-.user-name {
-  font-size: inherit;
-  color: white;
-}
-
-.logout-btn {
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  font-size: inherit;
-  text-decoration: none;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 0;
-  font-family: inherit;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-.logout-btn:hover {
-  text-decoration: underline;
+.navbar-brand {
+  padding: 15px 30px;
+  display: inline-block;
+}
+
+.navbar-brand a {
+  color: white;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.navbar-brand a:hover {
+  transform: scale(1.05);
+}
+
+.navbar-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 10px 20px;
+}
+
+.navbar-menu li {
+  display: inline-block;
+}
+
+.navbar-menu li a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 18px;
+  display: block;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.navbar-menu li a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.navbar-menu li a:active {
+  transform: translateY(0);
+}
+
+/* Enlace de administración destacado */
+.navbar-menu li a[href="/admin/usuarios"] {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(245, 87, 108, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.navbar-menu li a[href="/admin/usuarios"]:hover {
+  background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(245, 87, 108, 0.5);
+}
+
+/* Información del usuario */
+.user-info {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 8px 16px;
+  border-radius: 25px;
+  margin: 0 5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-info span {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Botón de cerrar sesión */
+.btn-logout {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(245, 87, 108, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-logout:hover {
+  background: linear-gradient(135deg, #f5576c 0%, #dc3545 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.5);
+}
+
+.btn-logout:active {
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .navbar-menu {
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .navbar-menu li a {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+
+  .navbar-brand a {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0;
+  }
+
+  .navbar-brand {
+    padding: 12px 15px;
+    text-align: center;
+    display: block;
+  }
+
+  .navbar-brand a {
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .navbar-menu {
+    flex-direction: column;
+    gap: 8px;
+    padding: 15px 10px;
+  }
+
+  .navbar-menu li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .navbar-menu li a {
+    display: block;
+    width: 100%;
+    padding: 12px;
+  }
+
+  .user-info {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .user-info span {
+    justify-content: center;
+  }
+
+  .btn-logout {
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+/* Animación al cargar */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.navbar {
+  animation: slideDown 0.5s ease-out;
+}
+
+/* Efecto de brillo en hover */
+.navbar-menu li a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.navbar-menu li a {
+  position: relative;
+  overflow: hidden;
+}
+
+.navbar-menu li a:hover::before {
+  left: 100%;
+}
+
+/* Estado activo/seleccionado */
+.navbar-menu li a.active {
+  background: rgba(255, 255, 255, 0.25);
+  border-bottom: 3px solid white;
+}
+/* Estilos adicionales para el Navbar - Agregar a Navbar.css */
+
+/* Información del usuario */
+.user-info {
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.user-info span {
+  color: white;
+  font-weight: 500;
+}
+
+/* Botón de logout */
+.btn-logout {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4);
+}
+
+/* Destacar enlace de administración */
+.navbar-menu li a[href="/admin/usuarios"] {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  padding: 8px 15px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.navbar-menu li a[href="/admin/usuarios"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(79, 172, 254, 0.4);
 }

@@ -10,10 +10,12 @@ import HistorialAnalisis from './pages/HistorialAnalisis';
 import HistorialDatos from './pages/HistorialDatos';
 import ReporteAnalisis from './pages/ReporteAnalisis';
 import Contacto from './pages/Contacto';
+import AdminUsuarios from './pages/AdminUsuarios';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [usuario, setUsuario] = useState('');
+  const [usuarioData, setUsuarioData] = useState(null);
 
   // Verificar si hay una sesión guardada al cargar la app
   useEffect(() => {
@@ -21,19 +23,23 @@ function App() {
     const usuarioGuardado = localStorage.getItem('usuario');
     
     if (token && usuarioGuardado) {
+      const userData = JSON.parse(usuarioGuardado);
       setIsAuthenticated(true);
-      setUsuario(JSON.parse(usuarioGuardado).usuario);
+      setUsuario(userData.usuario);
+      setUsuarioData(userData);
     }
   }, []);
 
-  const handleLogin = (nombreUsuario) => {
+  const handleLogin = (nombreUsuario, userData) => {
     setIsAuthenticated(true);
     setUsuario(nombreUsuario);
+    setUsuarioData(userData);
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
     setUsuario('');
+    setUsuarioData(null);
     // El localStorage se limpia en el componente Navbar
   };
 
@@ -43,6 +49,7 @@ function App() {
         isAuthenticated={isAuthenticated} 
         onLogout={handleLogout}
         usuario={usuario}
+        usuarioData={usuarioData}
       />
       
       <main style={{ minHeight: '80vh', padding: '20px' }}>
@@ -71,6 +78,13 @@ function App() {
           <Route 
             path="/reporte-analisis/:id" 
             element={isAuthenticated ? <ReporteAnalisis /> : <Login onLogin={handleLogin} />} 
+          />
+          <Route 
+            path="/admin/usuarios" 
+            element={isAuthenticated && usuarioData?.rol === 'administrador' ? 
+              <AdminUsuarios /> : 
+              <Login onLogin={handleLogin} />
+            } 
           />
           <Route path="/contacto" element={<Contacto />} />
         </Routes>

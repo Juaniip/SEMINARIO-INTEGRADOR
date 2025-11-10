@@ -1,39 +1,52 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
-const Navbar = ({ isAuthenticated, onLogout, usuario }) => {
-  
+const Navbar = ({ isAuthenticated, onLogout, usuario, usuarioData }) => {
+  const navigate = useNavigate();
+
   const handleLogout = () => {
-    // Limpiar localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
-    
-    // Llamar a la función onLogout del padre
     onLogout();
+    navigate('/login');
   };
 
   return (
     <nav className="navbar">
-      <div className="logo">Análisis y Procesamiento de propiedades Mecánicas</div>
-      <div className="links">
-        {isAuthenticated && <Link to="/analisis" className="link">Análisis</Link>}
-        {isAuthenticated && <Link to="/registros" className="link">Registros</Link>}
-        <Link to="/contacto" className="link">Contacto</Link>
+      <div className="navbar-brand">
+        <Link to="/">🧪 Sistema de Análisis</Link>
+      </div>
+      
+      <ul className="navbar-menu">
+        <li><Link to="/">Inicio</Link></li>
         
         {isAuthenticated ? (
-          <div className="user-section">
-            <span className="user-name">Hola, {usuario || 'Usuario'}</span>
-            <button 
-              onClick={handleLogout} 
-              className="logout-btn"
-            >
-              Cerrar Sesión
-            </button>
-          </div>
+          <>
+            <li><Link to="/analisis">Análisis</Link></li>
+            <li><Link to="/registros">Registros</Link></li>
+            
+            {/* Mostrar Administración solo si es administrador */}
+            {usuarioData?.rol === 'administrador' && (
+              <li><Link to="/admin/usuarios">👑 Administración</Link></li>
+            )}
+            
+            <li><Link to="/contacto">Contacto</Link></li>
+            <li className="user-info">
+              <span>👤 {usuario} ({usuarioData?.rol || 'usuario'})</span>
+            </li>
+            <li>
+              <button onClick={handleLogout} className="btn-logout">
+                Cerrar Sesión
+              </button>
+            </li>
+          </>
         ) : (
-          <Link to="/login" className="link">Iniciar Sesión</Link>
+          <>
+            <li><Link to="/contacto">Contacto</Link></li>
+            <li><Link to="/login">Iniciar Sesión</Link></li>
+          </>
         )}
-      </div>
+      </ul>
     </nav>
   );
 };

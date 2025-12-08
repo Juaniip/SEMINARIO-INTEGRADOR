@@ -1,31 +1,29 @@
 .registros-container {
-  max-width: 500px;
-  margin: 2rem auto;
-  text-align: center;
-}
-
-.registros-container h2 {
-  margin-bottom: 1.5rem;
-  font-size: 1.8rem;
-  color: #222;
+    max-width: 500px;
+    text-align: center;
 }
 
 .opciones {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .registro-btn {
-  display: block;
-  padding: 0.8rem;
-  text-decoration: none;
-  background-color: #0077ff;
-  color: white;
-  border-radius: 8px;
-  transition: background 0.2s ease-in-out;
+    display: block;
+    padding: 1rem;
+    text-decoration: none;
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 123, 255, 0.2);
 }
 
 .registro-btn:hover {
-  background-color: #005fcc;
+    background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 123, 255, 0.3);
 }

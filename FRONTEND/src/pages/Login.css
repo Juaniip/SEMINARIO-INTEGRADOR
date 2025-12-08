@@ -1,68 +1,91 @@
-/* Fondo y centrado de la página */
-.page-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* altura completa de la ventana */
-    background-color: #f0f2f5;
-    font-family: Arial, sans-serif;
-}
+/* ===============================================
+Login.css (Armonizado)
+===============================================
+*/
 
-/* Título */
-.page-container h1 {
-    margin-bottom: 20px;
-    color: #333;
-    font-size: 2rem;
+/* El .page-container ya tiene estilos de borde y sombra del index.css */
+
+.page-container {
+    max-width: 400px;
+    margin: 4rem auto;
+    /* Quitamos el display: flex y height: 100vh para usar el contenedor global */
+    text-align: center;
 }
 
 /* Formulario */
-.page-container form {
+.login-form {
     display: flex;
     flex-direction: column;
-    background-color: #fff;
-    padding: 30px 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    width: 300px;
+    /* Background, padding, border-radius y box-shadow heredados de .page-container */
+    width: 100%;
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
 }
 
 /* Inputs */
-.page-container input {
-    padding: 10px 12px;
+.login-form input {
+    width: 100%;
+    padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 1rem;
+    transition: border-color 0.3s ease;
 }
 
 /* Inputs: enfoque */
-.page-container input:focus {
+.login-form input:focus {
     outline: none;
     border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0,123,255,0.5);
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
 }
 
-/* Botón */
-.page-container button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: 0.3s;
+/* Botón - Usa estilo de index.css, solo adaptamos el width y margin */
+.login-form button[type="submit"] {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px 20px;
+    font-size: 16px;
 }
 
-.page-container button:hover {
-    background-color: #0056b3;
+.login-form button[type="submit"]:disabled {
+    background-color: #cccccc !important;
+    cursor: not-allowed;
+    box-shadow: none !important;
+    transform: none !important;
 }
 
-/* Mensaje de error */
-.page-container p {
-    margin-bottom: 10px;
-    font-size: 0.9rem;
-    color: red;
-    text-align: center;
+/* Mensaje de error (Movido del style inline) */
+.login-form .error-message {
+    color: #dc3545;
+    margin-bottom: 15px;
+    padding: 12px;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    background-color: #f8d7da;
+    font-size: 14px;
+}
+
+/* Info de prueba */
+.info-prueba {
+    margin-top: 20px; 
+    font-size: 14px; 
+    color: #666;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.info-prueba strong {
+    color: #007bff;
 }

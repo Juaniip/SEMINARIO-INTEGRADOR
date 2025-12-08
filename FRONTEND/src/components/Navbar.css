@@ -1,12 +1,12 @@
-/* Navbar.css - Diseño completo y moderno */
-
 .navbar {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  /* Fondo principal: Gradiente de azul primario */
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
   padding: 0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
   position: sticky;
   top: 0;
   z-index: 1000;
+  animation: slideDown 0.5s ease-out; /* Animación de carga */
 }
 
 .navbar-brand {
@@ -26,7 +26,7 @@
 }
 
 .navbar-brand a:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .navbar-menu {
@@ -45,6 +45,7 @@
   display: inline-block;
 }
 
+/* Estilo base para enlaces */
 .navbar-menu li a {
   color: white;
   text-decoration: none;
@@ -55,31 +56,45 @@
   font-size: 15px;
   transition: all 0.3s ease;
   white-space: nowrap;
+  position: relative;
+  overflow: hidden;
 }
 
 .navbar-menu li a:hover {
   background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
-.navbar-menu li a:active {
-  transform: translateY(0);
+/* Efecto de brillo en hover */
+.navbar-menu li a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
 }
 
-/* Enlace de administración destacado */
+.navbar-menu li a:hover::before {
+  left: 100%;
+}
+
+/* Enlace de administración destacado (Púrpura/Rojo para alto contraste) */
 .navbar-menu li a[href="/admin/usuarios"] {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Gradiente de Admin */
   padding: 10px 18px;
   border-radius: 8px;
   font-weight: 600;
-  box-shadow: 0 2px 4px rgba(245, 87, 108, 0.3);
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .navbar-menu li a[href="/admin/usuarios"]:hover {
-  background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(245, 87, 108, 0.5);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.5);
 }
 
 /* Información del usuario */
@@ -89,6 +104,8 @@
   border-radius: 25px;
   margin: 0 5px;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
 }
 
 .user-info span {
@@ -100,9 +117,9 @@
   gap: 6px;
 }
 
-/* Botón de cerrar sesión */
+/* Botón de cerrar sesión (Logout - Rojo para Danger) */
 .btn-logout {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -111,18 +128,14 @@
   font-size: 14px;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(245, 87, 108, 0.3);
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .btn-logout:hover {
-  background: linear-gradient(135deg, #f5576c 0%, #dc3545 100%);
+  background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(220, 53, 69, 0.5);
-}
-
-.btn-logout:active {
-  transform: translateY(0);
 }
 
 /* Responsive */
@@ -143,10 +156,6 @@
 }
 
 @media (max-width: 768px) {
-  .navbar {
-    padding: 0;
-  }
-
   .navbar-brand {
     padding: 12px 15px;
     text-align: center;
@@ -169,29 +178,21 @@
     text-align: center;
   }
 
-  .navbar-menu li a {
+  .navbar-menu li a,
+  .btn-logout,
+  .user-info {
     display: block;
     width: 100%;
     padding: 12px;
-  }
-
-  .user-info {
-    width: 100%;
-    text-align: center;
-    justify-content: center;
+    box-sizing: border-box; /* Asegura que el padding no desborde */
   }
 
   .user-info span {
     justify-content: center;
   }
-
-  .btn-logout {
-    width: 100%;
-    padding: 12px;
-  }
 }
 
-/* Animación al cargar */
+/* Keyframes */
 @keyframes slideDown {
   from {
     transform: translateY(-100%);
@@ -201,84 +202,4 @@
     transform: translateY(0);
     opacity: 1;
   }
-}
-
-.navbar {
-  animation: slideDown 0.5s ease-out;
-}
-
-/* Efecto de brillo en hover */
-.navbar-menu li a::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transition: left 0.5s;
-}
-
-.navbar-menu li a {
-  position: relative;
-  overflow: hidden;
-}
-
-.navbar-menu li a:hover::before {
-  left: 100%;
-}
-
-/* Estado activo/seleccionado */
-.navbar-menu li a.active {
-  background: rgba(255, 255, 255, 0.25);
-  border-bottom: 3px solid white;
-}
-/* Estilos adicionales para el Navbar - Agregar a Navbar.css */
-
-/* Información del usuario */
-.user-info {
-  display: flex;
-  align-items: center;
-  padding: 8px 15px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  font-size: 14px;
-}
-
-.user-info span {
-  color: white;
-  font-weight: 500;
-}
-
-/* Botón de logout */
-.btn-logout {
-  background: #dc3545;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.btn-logout:hover {
-  background: #c82333;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4);
-}
-
-/* Destacar enlace de administración */
-.navbar-menu li a[href="/admin/usuarios"] {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  padding: 8px 15px;
-  border-radius: 6px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.navbar-menu li a[href="/admin/usuarios"]:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(79, 172, 254, 0.4);
 }

@@ -1,0 +1,129 @@
+.home-dashboard {
+    max-width: 1000px; /* Hacemos el contenedor un poco más ancho */
+    text-align: center;
+}
+
+/* --- HERO SECTION --- */
+.hero-section {
+    padding: 30px 20px;
+    margin-bottom: 40px;
+    background: #e3f2fd; /* Fondo azul muy claro */
+    border-radius: 10px;
+    border: 1px solid #90caf9;
+}
+
+.hero-section h1 {
+    color: #007bff;
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.hero-section p {
+    font-size: 16px;
+    color: #495057;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* --- ACCIONES RÁPIDAS GRID --- */
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.action-card {
+    text-decoration: none;
+    padding: 30px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    display: block;
+    text-align: left;
+    height: 100%;
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 123, 255, 0.2);
+}
+
+.action-card h3 {
+    margin-top: 0;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.action-card p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #6c757d;
+}
+
+.card-icon {
+    font-size: 40px;
+    float: right;
+    margin-top: -10px;
+}
+
+/* Estilos de Color para las Tarjetas */
+.primary-card {
+    background: linear-gradient(145deg, #e3f2fd 0%, #ffffff 100%);
+    border-left: 5px solid #007bff;
+}
+.primary-card h3 {
+    color: #007bff;
+}
+
+.secondary-card {
+    background: linear-gradient(145deg, #f0fff0 0%, #ffffff 100%);
+    border-left: 5px solid #28a745; /* Usamos verde para la gestión de datos */
+}
+.secondary-card h3 {
+    color: #28a745;
+}
+
+/* --- RESUMEN DEL SISTEMA --- */
+.system-summary {
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border: 1px solid #dee2e6;
+}
+
+.system-summary h4 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.summary-stats-placeholder {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    font-size: 14px;
+    color: #495057;
+}
+
+.stat-value-placeholder {
+    font-weight: bold;
+    color: #007bff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .quick-actions-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .summary-stats-placeholder {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .card-icon {
+        display: none;
+    }
+}

@@ -61,14 +61,7 @@ const Login = ({ onLogin }) => {
       <h1>Iniciar Sesión</h1>
       <form onSubmit={handleSubmit} className="login-form">
         {error && (
-          <div className="error-message" style={{
-            color: 'red',
-            marginBottom: '10px',
-            padding: '10px',
-            border: '1px solid red',
-            borderRadius: '4px',
-            backgroundColor: '#ffe6e6'
-          }}>
+          <div className="error-message">
             {error}
           </div>
         )}
@@ -83,13 +76,6 @@ const Login = ({ onLogin }) => {
             onChange={handleChange}
             required
             placeholder="Ingrese su usuario"
-            style={{
-              width: '100%',
-              padding: '8px',
-              marginBottom: '10px',
-              border: '1px solid #ccc',
-              borderRadius: '4px'
-            }}
           />
         </div>
 
@@ -103,34 +89,18 @@ const Login = ({ onLogin }) => {
             onChange={handleChange}
             required
             placeholder="Ingrese su contraseña"
-            style={{
-              width: '100%',
-              padding: '8px',
-              marginBottom: '20px',
-              border: '1px solid #ccc',
-              borderRadius: '4px'
-            }}
           />
         </div>
 
         <button 
           type="submit" 
           disabled={loading}
-          style={{
-            backgroundColor: loading ? '#cccccc' : '#007bff',
-            color: 'white',
-            padding: '10px 20px',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: loading ? 'not-allowed' : 'pointer',
-            width: '100%'
-          }}
         >
           {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
         </button>
       </form>
       
-      <div style={{ marginTop: '20px', fontSize: '14px', color: '#666' }}>
+      <div className="info-prueba">
         <p><strong>Usuario de prueba:</strong></p>
         <p>Usuario: FORPW</p>
         <p>Contraseña: UTN2025SEM</p>

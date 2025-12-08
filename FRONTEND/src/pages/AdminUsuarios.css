@@ -1,4 +1,7 @@
-/* AdminUsuarios.css */
+/* ===============================================
+AdminUsuarios.css (Armonizado)
+===============================================
+*/
 
 .admin-container {
   max-width: 1200px;
@@ -12,14 +15,16 @@
   align-items: center;
   margin-bottom: 30px;
   padding: 20px;
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Gradiente Azul-Púrpura */
   border-radius: 10px;
   color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .admin-header h2 {
   margin: 0;
   font-size: 28px;
+  color: white;
 }
 
 .btn-nuevo-usuario {
@@ -46,13 +51,17 @@
   padding: 30px;
   border-radius: 10px;
   margin-bottom: 30px;
-  border: 2px solid #667eea;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .formulario-container h3 {
   margin-top: 0;
   color: #667eea;
   font-size: 22px;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .form-usuario {
@@ -140,11 +149,12 @@
   padding: 15px;
   border-radius: 6px;
   margin-bottom: 20px;
-  border-left: 4px solid #2196f3;
+  border-left: 4px solid #007bff;
   font-size: 14px;
+  color: #333;
 }
 
-/* Tabla */
+/* Tabla - Usando estilos base de index.css, solo definimos lo específico */
 .tabla-responsive {
   overflow-x: auto;
   margin-bottom: 30px;
@@ -153,42 +163,9 @@
   border: 1px solid #dee2e6;
 }
 
-.tabla-usuarios {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  font-size: 14px;
-}
-
 .tabla-usuarios th {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Header Púrpura */
   color: white;
-  font-weight: 600;
-  padding: 15px;
-  text-align: left;
-  border-bottom: 2px solid #764ba2;
-  white-space: nowrap;
-}
-
-.tabla-usuarios td {
-  padding: 15px;
-  border-bottom: 1px solid #f1f3f4;
-}
-
-.tabla-usuarios tbody tr {
-  transition: background-color 0.2s ease;
-}
-
-.tabla-usuarios tbody tr:hover {
-  background-color: #f8f9fa;
-}
-
-.tabla-usuarios tbody tr:nth-child(even) {
-  background-color: #fafbfc;
-}
-
-.tabla-usuarios tbody tr:nth-child(even):hover {
-  background-color: #f0f2f5;
 }
 
 /* Columnas específicas */
@@ -221,12 +198,12 @@
 }
 
 .badge-rol.administrador {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, #f5576c 0%, #dc3545 100%); /* Rojo/Rosa fuerte */
   color: white;
 }
 
 .badge-rol.usuario {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); /* Azul */
   color: white;
 }
 
@@ -269,17 +246,11 @@
   border: 1px solid #dee2e6;
 }
 
-.usuarios-info p {
-  margin: 5px 0;
-  color: #333;
-  font-size: 14px;
-}
-
 .usuarios-info strong {
   color: #667eea;
 }
 
-/* Botón actualizar */
+/* Botón actualizar (grande) - Usa gradiente de admin */
 .btn-actualizar {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -324,21 +295,11 @@
 /* Estados */
 .loading-message,
 .error-message {
-  text-align: center;
-  padding: 40px 20px;
-  font-size: 16px;
-  border-radius: 8px;
-  margin: 20px 0;
-}
-
-.error-message {
-  color: #dc3545;
-  background: #f8d7da;
-  border: 1px solid #f5c6cb;
+  /* Estilos heredados de index.css/Global.css */
 }
 
 .btn-reintentar {
-  background: #007bff;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -348,7 +309,7 @@
 }
 
 .btn-reintentar:hover {
-  background: #0056b3;
+  background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
 }
 
 /* Responsive */

@@ -1,84 +1,192 @@
+/* ===============================================
+index.css (Estilos Base y Globales Unificados)
+===============================================
+*/
+
 /* Reset básico */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
 }
 
 /* Body */
 body {
-  background-color: #f4f4f4;
-  color: #333;
+    background-color: #f4f7fa; /* Fondo blanco azulado muy sutil */
+    color: #333;
 }
 
-/* Navbar */
+h2, h3, h4 {
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+/* Navbar (Mantenemos el Navbar oscuro para contraste) */
 nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: #282c34;
-  color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #282c34;
+    color: white;
 }
 
 nav .logo {
-  font-weight: bold;
-  font-size: 1.5rem;
+    font-weight: bold;
+    font-size: 1.5rem;
 }
 
 nav .links {
-  display: flex;
-  gap: 1.5rem;
+    display: flex;
+    gap: 1.5rem;
 }
 
 nav .links a {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
 }
 
 nav .links a:hover {
-  color: #61dafb;
+    color: #007bff; /* Usamos el azul primario */
 }
 
-/* Contenedor principal de cada página */
-.page-container {
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
-  text-align: center;
+/* Contenedores Principales de Vistas */
+.page-container,
+.historial-container,
+.registros-container,
+.reporte-container,
+.admin-container { /* Agregamos .admin-container */
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.1);
+    border: 1px solid #e9ecef;
 }
 
-/* Títulos */
-.page-container h1 {
-  margin-bottom: 1rem;
-  color: #282c34;
+/* Títulos de Vistas */
+.page-container h1,
+.historial-container h2,
+.registros-container h2 {
+    text-align: center;
+    color: #007bff; /* Título principal en azul */
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 700;
 }
 
-/* Párrafos */
-.page-container p {
-  font-size: 1.1rem;
-  line-height: 1.6;
+/* Botones Comunes (Nuevo estilo Azul/Minimalista) */
+button:not([class^="btn-"]) { /* Aplicar solo a botones sin clase específica */
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+    margin-top: 1rem;
 }
 
-/* Botones */
-button {
-  padding: 0.6rem 1.2rem;
-  background-color: #61dafb;
-  border: none;
-  border-radius: 6px;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  margin-top: 1rem;
+button:not([class^="btn-"]):hover {
+    background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
 }
 
-button:hover {
-  background-color: #21a1f1;
+/* Mensajes de Estado (Comunes) */
+.loading-message,
+.error-message,
+.no-data-message,
+.loading-analisis,
+.carpeta-vacia {
+    text-align: center;
+    padding: 30px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    margin: 20px 0;
+    background: #e9f2ff; /* Fondo azul claro */
+    border: 1px solid #b8daff;
+    color: #0056b3;
+}
+
+.error-message {
+    color: #dc3545;
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+
+/* Estilos de Tabla Comunes */
+.tabla-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin: 25px 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border: 1px solid #dee2e6;
+}
+
+.tabla-analisis,
+.tabla-usuarios { /* Aplicar a tablas de usuario también */
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+    background: white;
+    font-size: 13px;
+}
+
+.tabla-analisis th,
+.tabla-usuarios th {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    font-weight: 700;
+    padding: 12px 8px;
+    text-align: center;
+    border-bottom: 2px solid #0056b3;
+    font-size: 13px;
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+
+.tabla-analisis td,
+.tabla-usuarios td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #f1f3f4;
+    font-size: 12px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.tabla-analisis tbody tr:nth-child(even),
+.tabla-usuarios tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.tabla-analisis tbody tr:hover,
+.tabla-usuarios tbody tr:hover {
+    background-color: #e9f2ff;
+}
+
+/* Estilos de Columna Comunes */
+.id-column {
+    font-weight: bold;
+    color: #007bff;
+    font-size: 14px;
+}
+
+.fecha-column {
+    font-size: 11px;
+    color: #6c757d;
+}
+
+.numero-column {
+    font-family: monospace;
+    font-weight: 500;
+    color: #333;
 }

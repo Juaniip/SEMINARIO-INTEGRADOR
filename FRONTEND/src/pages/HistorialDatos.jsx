@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./Historial.css";
+import "./HistorialDatos.css";
 
 const HistorialDatos = () => {
   const [carpetas, setCarpetas] = useState([]);

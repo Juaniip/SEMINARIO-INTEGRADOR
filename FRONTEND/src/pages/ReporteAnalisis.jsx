@@ -309,7 +309,7 @@ const ReporteAnalisis = () => {
             <div className="resultado-valor">
               {analisis.elongacion_ruptura ? analisis.elongacion_ruptura.toFixed(3) : 'N/A'}
             </div>
-            <div className="resultado-label">Elongación de Ruptura (mm)</div>
+            <div className="resultado-label">Elongación de Ruptura (%)</div>
           </div>
           <div className="resultado-destacado">
             <div className="resultado-valor">

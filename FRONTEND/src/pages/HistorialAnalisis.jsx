@@ -416,7 +416,7 @@ const HistorialAnalisis = () => {
                       <th>Área (mm²)</th>
                       <th>Distancia (mm)</th>
                       <th>Tensión Máx (MPa)</th>
-                      <th>Elongación (mm)</th>
+                      <th>Elongación (%)</th>
                       <th>Módulo Young (MPa)</th>
                       <th>Acciones</th>
                     </tr>

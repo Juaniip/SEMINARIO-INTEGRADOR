@@ -334,10 +334,10 @@ const AnalisisForm = ({ usuario }) => {
               boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
             }}>
               <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#28a745' }}>
-                {resultados.elongacion_ruptura?.toFixed(3)} mm
+                {resultados.deformacion_nominal_porc?.toFixed(2)} %
               </div>
               <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-                Elongación de Ruptura
+                Deformación Nominal (Adimensional)
               </div>
             </div>
             
@@ -352,7 +352,7 @@ const AnalisisForm = ({ usuario }) => {
                 {resultados.modulo_young?.toFixed(3)} MPa
               </div>
               <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-                Módulo de Young
+                Módulo de Elasticidad (E)
               </div>
             </div>
           </div>

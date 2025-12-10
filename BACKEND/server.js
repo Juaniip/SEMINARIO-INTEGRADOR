@@ -145,6 +145,7 @@ function procesarArchivoEnsayo(contenidoCSV, area_usuario, distancia_usuario, co
     if (!line) continue;
     const partes = line.split(';');
     if (partes.length >= 4) {
+      // Índice 1 es Desplazamiento, Índice 3 es Fuerza
       const desplazamiento = parseFloat(partes[1].replace(',', '.'));
       const fuerza = parseFloat(partes[3].replace(',', '.'));
       if (!isNaN(desplazamiento) && !isNaN(fuerza)) datos.push({ desplazamiento, fuerza });
@@ -168,23 +169,51 @@ function procesarArchivoEnsayo(contenidoCSV, area_usuario, distancia_usuario, co
   const tension_maxima = (fuerza_maxima * constante) / area;
   const elongacion_ruptura = Math.max(...desplazamientos);
   
-  const zona_elastica = Math.floor(datos_ajustados.length * 0.2);
-  let suma_x = 0, suma_y = 0, suma_xy = 0, suma_x2 = 0;
-  for (let i = 0; i < zona_elastica; i++) {
-    const deformacion = datos_ajustados[i].desplazamiento / distancia_usuario;
-    const tension = (datos_ajustados[i].fuerza * constante) / area;
-    suma_x += deformacion;
-    suma_y += tension;
-    suma_xy += deformacion * tension;
-    suma_x2 += deformacion * deformacion;
+  // Cálculo de la Deformación Nominal en porcentaje (%)
+  const deformacion_nominal_porc = (elongacion_ruptura / distancia_usuario) * 100;
+  
+  // CORRECCIÓN FINAL: Cálculo del Módulo por Regresión Lineal Acotada
+  // Rango de deformación unitaria (epsilon) basado en la prueba solicitada: 0.0204 a 0.0352
+  const E_INICIO_REGRESION = 0.0005; 
+  const E_FIN_REGRESION = 0.0025;   
+
+  let suma_x = 0;
+  let suma_y = 0;
+  let suma_xy = 0;
+  let suma_x2 = 0;
+  let puntos_regresion = 0;
+
+  for (const punto of datos_ajustados) {
+      // x = Deformación (adimensional: Delta L / L0)
+      const deformacion = punto.desplazamiento / distancia_usuario;
+      // y = Tensión (MPa)
+      const tension = (punto.fuerza * constante) / area; 
+
+      // Solo incluimos puntos dentro del rango de deformación unitaria
+      if (deformacion >= E_INICIO_REGRESION && deformacion <= E_FIN_REGRESION) {
+          suma_x += deformacion;
+          suma_y += tension;
+          suma_xy += deformacion * tension;
+          suma_x2 += deformacion * deformacion;
+          puntos_regresion++;
+      }
+      
+      // Si ya pasamos el rango, salir para ahorrar ciclos
+      if (deformacion > E_FIN_REGRESION) break;
+  }
+
+  let modulo_young_ajustado = 0;
+
+  if (puntos_regresion > 1) {
+      // Cálculo de la pendiente (Módulo) por regresión lineal
+      modulo_young_ajustado = (puntos_regresion * suma_xy - suma_x * suma_y) / (puntos_regresion * suma_x2 - suma_x * suma_x);
   }
   
-  const modulo_young = (zona_elastica * suma_xy - suma_x * suma_y) / (zona_elastica * suma_x2 - suma_x * suma_x);
-
   return {
     tension_maxima: tension_maxima || 0,
-    elongacion_ruptura: elongacion_ruptura || 0,
-    modulo_young: modulo_young || 0,
+    elongacion_ruptura: elongacion_ruptura || 0, 
+    deformacion_nominal_porc: deformacion_nominal_porc || 0, 
+    modulo_young: modulo_young_ajustado || 0, // MÓDULO AJUSTADO
     datos_procesados: datos_ajustados,
     metadatos: { area_archivo, maxima_fuerza, maximo_desplazamiento, puntos_totales: datos.length, inicio_traccion }
   };
@@ -325,7 +354,13 @@ app.post('/api/analisis', verificarToken, (req, res) => {
       [req.usuario.id, carpeta_id, area_final, distancia, constante || 0.949, archivo_nombre, archivo_datos, JSON.stringify(resultados.datos_procesados), resultados.tension_maxima, resultados.elongacion_ruptura, resultados.modulo_young], 
       function(err) {
         if (err) return res.status(500).json({ error: 'Error al guardar' });
-        res.json({ message: 'Análisis guardado', id: this.lastID, resultados: { ...resultados, datos_procesados: undefined } });
+        // Se envían los resultados procesados al frontend
+        res.json({ message: 'Análisis guardado', id: this.lastID, resultados: { 
+            tension_maxima: resultados.tension_maxima,
+            elongacion_ruptura: resultados.elongacion_ruptura,
+            modulo_young: resultados.modulo_young,
+            deformacion_nominal_porc: resultados.deformacion_nominal_porc // VALOR EN % PARA EL FRONTEND
+        } });
       });
   } catch (error) { res.status(500).json({ error: error.message }); }
 });
@@ -352,8 +387,24 @@ app.get('/api/analisis/:id', verificarToken, (req, res) => {
   db.get(`SELECT a.*, u.usuario as nombre_usuario FROM analisis a JOIN usuarios u ON a.usuario_id = u.id WHERE a.id = ?`, [req.params.id], (err, row) => {
     if (!row) return res.status(404).json({ error: 'No encontrado' });
     let datosGrafica = [];
-    if (row.datos_procesados) { try { datosGrafica = JSON.parse(row.datos_procesados).map(p => ({ desplazamiento: p.desplazamiento, fuerza: p.fuerza, tension: (p.fuerza * row.constante) / row.area, deformacion: p.desplazamiento / row.distancia })); } catch (e) {} }
-    res.json({ ...row, datos_grafica: datosGrafica });
+    if (row.datos_procesados) { 
+        try { 
+            datosGrafica = JSON.parse(row.datos_procesados).map(p => ({ 
+                desplazamiento: p.desplazamiento, 
+                fuerza: p.fuerza, 
+                tension: (p.fuerza * row.constante) / row.area, 
+                deformacion: p.desplazamiento / row.distancia 
+            })); 
+        } catch (e) {} 
+    }
+    // Calcular la deformación nominal en porcentaje para la respuesta de la API
+    const deformacion_nominal_porc = (row.elongacion_ruptura / row.distancia) * 100;
+
+    res.json({ 
+      ...row, 
+      deformacion_nominal_porc, // INCLUIDO EN RESPUESTA GET INDIVIDUAL
+      datos_grafica: datosGrafica 
+    });
   });
 });
 

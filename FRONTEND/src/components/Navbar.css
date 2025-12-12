@@ -203,3 +203,49 @@
     opacity: 1;
   }
 }
+.navbar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar-menu li a {
+  padding: 14px;
+  font-size: 16px;
+}
+
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 26px;
+  padding: 15px;
+  cursor: pointer;
+}
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .navbar-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    flex-direction: column;
+    display: none; /* 🔥 CLAVE */
+    padding: 10px 0;
+  }
+
+  .navbar-menu.open {
+    display: flex; /* 🔥 SOLO cuando está abierto */
+  }
+
+  .navbar-menu li {
+    width: 100%;
+    text-align: center;
+  }
+}
+

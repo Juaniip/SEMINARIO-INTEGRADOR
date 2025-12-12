@@ -177,7 +177,6 @@ const AnalisisForm = ({ usuario }) => {
               required 
             />
           </label>
-          <small>Formatos soportados: CSV, TXT, XLS, XLSX</small>
         </div>
 
         <button type="submit" disabled={loading} className="btn-procesar">

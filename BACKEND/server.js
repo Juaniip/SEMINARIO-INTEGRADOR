@@ -20,6 +20,14 @@ const upload = multer({
   limits: { fileSize: 100 * 1024 * 1024 }
 });
 
+// Función para obtener fecha/hora en zona horaria de Buenos Aires
+function obtenerFechaBA() {
+  const ahora = new Date();
+  const offsetBsAs = -3 * 60 * 60 * 1000; // UTC-3
+  const fechaBsAs = new Date(ahora.getTime() + offsetBsAs);
+  return fechaBsAs.toISOString().slice(0, 19).replace('T', ' ');
+}
+
 // Base de datos
 const db = new sqlite3.Database('./database.db', (err) => {
   if (err) console.error('Error DB:', err.message);
@@ -59,7 +67,7 @@ db.serialize(() => {
     FOREIGN KEY(carpeta_id) REFERENCES carpetas(id)
   )`);
 
-  // Migraciones y Admin por defecto (Código abreviado para limpieza, mantener lógica original si es necesario)
+  // Migraciones y Admin por defecto
   db.run(`INSERT OR IGNORE INTO usuarios (usuario, password, rol) VALUES (?, ?, ?)`, 
     ['FORPW', bcrypt.hashSync('UTN2025SEM', 10), 'administrador']
   );
@@ -172,32 +180,19 @@ function procesarArchivoEnsayo(contenidoCSV, area_usuario, distancia_usuario, co
   const elongacion_ruptura_porcentaje = (max_desp_mm / distancia_usuario) * 100;
 
   // C) Módulo de Young (Algoritmo de Ventana Deslizante)
-  // En lugar de un rango fijo, buscamos la pendiente más empinada en la zona elástica.
-  // Zona elástica teórica: usualmente entre el 5% y el 40% de la Tensión Máxima,
-  // pero buscaremos la pendiente máxima estable en la primera mitad de la curva.
-  
   let max_pendiente = 0;
   let mejor_r2 = 0;
   
-  // Definimos el tamaño de la ventana (ej. 15 puntos o 5% de los datos totales)
-  // Para archivos CSV con muchos puntos, una ventana más grande suaviza el ruido.
   const windowSize = Math.max(5, Math.floor(datos_ajustados.length * 0.03)); 
-  
-  // Solo analizamos hasta llegar a la tensión máxima (evitamos la zona de plasticidad/ruptura)
   const indice_pico = datos_ajustados.findIndex(d => d.tension === tension_maxima);
   const limite_busqueda = indice_pico > 0 ? indice_pico : datos_ajustados.length;
 
-  for (let i = 0; i < limite_busqueda - windowSize; i += 2) { // Salto de 2 para optimizar
+  for (let i = 0; i < limite_busqueda - windowSize; i += 2) {
     const ventana = datos_ajustados.slice(i, i + windowSize);
-    
-    // Preparamos datos para regresión (x: deformación, y: tensión)
     const puntos_regresion = ventana.map(p => ({ x: p.deformacion, y: p.tension }));
     
     const { m, r2 } = regresionLineal(puntos_regresion);
 
-    // Criterios para aceptar la pendiente:
-    // 1. R2 debe ser decente (> 0.95) para asegurar que es una línea recta
-    // 2. Buscamos la pendiente MAYOR (la parte más empinada representa el Módulo real sin deslizamiento)
     if (r2 > 0.98 && m > max_pendiente) {
       max_pendiente = m;
       mejor_r2 = r2;
@@ -210,7 +205,7 @@ function procesarArchivoEnsayo(contenidoCSV, area_usuario, distancia_usuario, co
         const ventana = datos_ajustados.slice(i, i + windowSize);
         const puntos_regresion = ventana.map(p => ({ x: p.deformacion, y: p.tension }));
         const { m, r2 } = regresionLineal(puntos_regresion);
-        if (r2 > 0.90 && m > max_pendiente) { // Criterio relajado
+        if (r2 > 0.90 && m > max_pendiente) {
             max_pendiente = m;
         }
      }
@@ -245,7 +240,6 @@ app.post('/api/login', (req, res) => {
 app.get('/api/verify-token', verificarToken, (req, res) => res.json({ valid: true, usuario: req.usuario }));
 
 app.get('/api/usuarios', verificarToken, (req, res) => {
-  // Verificar que el usuario actual es administrador
   if (req.usuario.rol !== 'administrador') {
     return res.status(403).json({ error: 'Solo administradores pueden listar usuarios' });
   }
@@ -260,14 +254,12 @@ app.get('/api/usuarios', verificarToken, (req, res) => {
 
 // POST - Crear nuevo usuario (solo para administradores)
 app.post('/api/usuarios', verificarToken, (req, res) => {
-  // Verificar que el usuario actual es administrador
   if (req.usuario.rol !== 'administrador') {
     return res.status(403).json({ error: 'Solo administradores pueden crear usuarios' });
   }
 
   const { usuario, password, rol } = req.body;
 
-  // Validaciones
   if (!usuario || !password) {
     return res.status(400).json({ error: 'Usuario y contraseña son requeridos' });
   }
@@ -280,12 +272,12 @@ app.post('/api/usuarios', verificarToken, (req, res) => {
     return res.status(400).json({ error: 'Rol inválido' });
   }
 
-  // Hashear contraseña
   const hashedPassword = bcrypt.hashSync(password, 10);
+  const fechaCreacion = obtenerFechaBA();
 
   db.run(
-    'INSERT INTO usuarios (usuario, password, rol) VALUES (?, ?, ?)',
-    [usuario.trim(), hashedPassword, rol],
+    'INSERT INTO usuarios (usuario, password, rol, fecha_creacion) VALUES (?, ?, ?, ?)',
+    [usuario.trim(), hashedPassword, rol, fechaCreacion],
     function(err) {
       if (err) {
         if (err.message.includes('UNIQUE constraint failed')) {
@@ -305,14 +297,12 @@ app.post('/api/usuarios', verificarToken, (req, res) => {
 
 // DELETE - Eliminar usuario (solo para administradores)
 app.delete('/api/usuarios/:id', verificarToken, (req, res) => {
-  // Verificar que el usuario actual es administrador
   if (req.usuario.rol !== 'administrador') {
     return res.status(403).json({ error: 'Solo administradores pueden eliminar usuarios' });
   }
 
   const userId = req.params.id;
 
-  // Proteger al usuario FORPW
   db.get('SELECT usuario FROM usuarios WHERE id = ?', [userId], (err, row) => {
     if (!row) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
@@ -322,7 +312,6 @@ app.delete('/api/usuarios/:id', verificarToken, (req, res) => {
       return res.status(403).json({ error: 'No se puede eliminar el usuario administrador principal' });
     }
 
-    // Eliminar el usuario
     db.run('DELETE FROM usuarios WHERE id = ?', [userId], function(err) {
       if (err) {
         return res.status(500).json({ error: 'Error al eliminar usuario' });
@@ -332,7 +321,7 @@ app.delete('/api/usuarios/:id', verificarToken, (req, res) => {
   });
 });
 
-// PUT - Actualizar rol de usuario (opcional, para futuro)
+// PUT - Actualizar rol de usuario
 app.put('/api/usuarios/:id', verificarToken, (req, res) => {
   if (req.usuario.rol !== 'administrador') {
     return res.status(403).json({ error: 'Solo administradores pueden actualizar usuarios' });
@@ -345,7 +334,6 @@ app.put('/api/usuarios/:id', verificarToken, (req, res) => {
     return res.status(400).json({ error: 'Rol inválido' });
   }
 
-  // Proteger a FORPW
   db.get('SELECT usuario FROM usuarios WHERE id = ?', [userId], (err, row) => {
     if (!row) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
@@ -371,7 +359,10 @@ app.get('/api/carpetas', verificarToken, (req, res) => {
 app.post('/api/carpetas', verificarToken, (req, res) => {
   const { nombre } = req.body;
   if (!nombre?.trim()) return res.status(400).json({ error: 'Nombre requerido' });
-  db.run('INSERT INTO carpetas (nombre) VALUES (?)', [nombre.trim()], function(err) {
+  
+  const fechaCreacion = obtenerFechaBA();
+  
+  db.run('INSERT INTO carpetas (nombre, fecha_creacion) VALUES (?, ?)', [nombre.trim(), fechaCreacion], function(err) {
     if (err) return res.status(500).json({ error: 'Error al crear' });
     res.json({ id: this.lastID, nombre: nombre.trim() });
   });
@@ -396,7 +387,7 @@ app.get('/api/datos-relevantes/:carpeta_id', verificarToken, (req, res) => {
     db.all(`SELECT * FROM analisis WHERE carpeta_id = ? ORDER BY fecha_analisis DESC`, [req.params.carpeta_id], (err, rows) => res.json(err ? [] : rows));
 });
 
-// POST ANÁLISIS
+// POST ANÁLISIS - CON ZONA HORARIA AJUSTADA
 app.post('/api/analisis', verificarToken, (req, res) => {
   const { area, distancia, constante, archivo_nombre, archivo_datos, carpeta_id } = req.body;
   if (!distancia || !archivo_datos || !carpeta_id) return res.status(400).json({ error: 'Faltan datos' });
@@ -404,8 +395,11 @@ app.post('/api/analisis', verificarToken, (req, res) => {
   try {
     const resultados = procesarArchivoEnsayo(archivo_datos, area ? parseFloat(area) : null, parseFloat(distancia), parseFloat(constante) || 0.949);
     
-    db.run(`INSERT INTO analisis (usuario_id, carpeta_id, area, distancia, constante, archivo_nombre, archivo_datos, datos_procesados, tension_maxima, elongacion_ruptura, modulo_young) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, 
-      [req.usuario.id, carpeta_id, area ? parseFloat(area) : resultados.metadatos.area_archivo, distancia, constante, archivo_nombre, archivo_datos, JSON.stringify(resultados.datos_procesados), resultados.tension_maxima, resultados.elongacion_ruptura, resultados.modulo_young], 
+    // Obtener fecha en zona horaria de Buenos Aires
+    const fechaAnalisis = obtenerFechaBA();
+    
+    db.run(`INSERT INTO analisis (usuario_id, carpeta_id, area, distancia, constante, archivo_nombre, archivo_datos, datos_procesados, tension_maxima, elongacion_ruptura, modulo_young, fecha_analisis) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, 
+      [req.usuario.id, carpeta_id, area ? parseFloat(area) : resultados.metadatos.area_archivo, distancia, constante, archivo_nombre, archivo_datos, JSON.stringify(resultados.datos_procesados), resultados.tension_maxima, resultados.elongacion_ruptura, resultados.modulo_young, fechaAnalisis], 
       function(err) {
         if (err) return res.status(500).json({ error: err.message });
         res.json({ message: 'Guardado', id: this.lastID, resultados });
@@ -444,5 +438,3 @@ app.get('/api/analisis/:id', verificarToken, (req, res) => {
 
 process.on('SIGINT', () => { db.close(); process.exit(0); });
 app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));
-
-module.exports = app;

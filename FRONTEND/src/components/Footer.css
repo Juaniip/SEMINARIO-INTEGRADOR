@@ -4,4 +4,6 @@
   padding: 1rem;
   text-align: center;
   font-size: 0.9rem;
+  /* align-self: bottom;  <-- ESTA LÍNEA LA BORRAMOS, NO ES VÁLIDA */
+  width: 100%;
 }

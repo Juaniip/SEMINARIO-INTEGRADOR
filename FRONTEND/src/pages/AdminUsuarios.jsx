@@ -36,7 +36,7 @@ const AdminUsuarios = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/usuarios', {
+      const response = await fetch('http://localhost:5000/api/login', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -80,7 +80,7 @@ const AdminUsuarios = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/usuarios', {
+      const response = await fetch('http://localhost:5000/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -122,7 +122,7 @@ const AdminUsuarios = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/usuarios/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/login/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

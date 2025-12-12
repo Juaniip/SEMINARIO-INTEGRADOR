@@ -11,6 +11,7 @@ import HistorialDatos from './pages/HistorialDatos';
 import ReporteAnalisis from './pages/ReporteAnalisis';
 import Contacto from './pages/Contacto';
 import AdminUsuarios from './pages/AdminUsuarios';
+import './App.css'; // Asegúrate de importar el CSS aquí
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -40,7 +41,6 @@ function App() {
     setIsAuthenticated(false);
     setUsuario('');
     setUsuarioData(null);
-    // El localStorage se limpia en el componente Navbar
   };
 
   return (
@@ -52,7 +52,8 @@ function App() {
         usuarioData={usuarioData}
       />
       
-      <main style={{ minHeight: '80vh', padding: '20px' }}>
+      {/* Clase aplicada para ocupar el espacio restante */}
+      <main className="main-content">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route 

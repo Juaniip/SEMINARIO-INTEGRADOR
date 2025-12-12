@@ -190,3 +190,10 @@ button:not([class^="btn-"]):hover {
     font-weight: 500;
     color: #333;
 }
+html, body, #root {
+    height: 100%;       /* Ocupar el 100% de la altura de la ventana */
+    margin: 0;
+    padding: 0;
+    display: flex;      /* Habilitar Flexbox en el contenedor raíz */
+    flex-direction: column; /* Organizar los hijos (Navbar, Contenido, Footer) en columna */
+}

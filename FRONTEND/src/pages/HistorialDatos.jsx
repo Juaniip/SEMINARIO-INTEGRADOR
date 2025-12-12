@@ -5,9 +5,14 @@ const HistorialDatos = () => {
   const [carpetas, setCarpetas] = useState([]);
   const [carpetaSeleccionada, setCarpetaSeleccionada] = useState(null);
   const [datosAnalisis, setDatosAnalisis] = useState([]);
+  const [datosAnalisisFiltrados, setDatosAnalisisFiltrados] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingAnalisis, setLoadingAnalisis] = useState(false);
   const [error, setError] = useState("");
+
+  // Estados para filtros
+  const [filtroActivo, setFiltroActivo] = useState('fecha');
+  const [ordenAscendente, setOrdenAscendente] = useState(false);
 
   useEffect(() => {
     cargarDatosRelevantes();
@@ -18,6 +23,10 @@ const HistorialDatos = () => {
       cargarAnalisisCarpeta(carpetaSeleccionada.carpeta_id);
     }
   }, [carpetaSeleccionada]);
+
+  useEffect(() => {
+    aplicarFiltro();
+  }, [datosAnalisis, filtroActivo, ordenAscendente]);
 
   const cargarDatosRelevantes = async () => {
     try {
@@ -74,6 +83,54 @@ const HistorialDatos = () => {
     }
   };
 
+  const aplicarFiltro = () => {
+    let datosOrdenados = [...datosAnalisis];
+    
+    datosOrdenados.sort((a, b) => {
+      let valorA, valorB;
+      
+      switch (filtroActivo) {
+        case 'fecha':
+          valorA = new Date(a.fecha_analisis);
+          valorB = new Date(b.fecha_analisis);
+          break;
+        case 'usuario':
+          valorA = (a.nombre_usuario || '').toLowerCase();
+          valorB = (b.nombre_usuario || '').toLowerCase();
+          break;
+        case 'tension':
+          valorA = a.tension_maxima || 0;
+          valorB = b.tension_maxima || 0;
+          break;
+        case 'elongacion':
+          valorA = a.elongacion_ruptura || 0;
+          valorB = b.elongacion_ruptura || 0;
+          break;
+        case 'modulo':
+          valorA = a.modulo_young || 0;
+          valorB = b.modulo_young || 0;
+          break;
+        default:
+          return 0;
+      }
+
+      if (valorA < valorB) return ordenAscendente ? -1 : 1;
+      if (valorA > valorB) return ordenAscendente ? 1 : -1;
+      return 0;
+    });
+
+    setDatosAnalisisFiltrados(datosOrdenados);
+  };
+
+  const cambiarFiltro = (nuevoFiltro) => {
+    if (filtroActivo === nuevoFiltro) {
+      setOrdenAscendente(!ordenAscendente);
+    } else {
+      setFiltroActivo(nuevoFiltro);
+      setOrdenAscendente(true);
+    }
+  };
+
   const formatearFecha = (fechaString) => {
     const fecha = new Date(fechaString);
     return fecha.toLocaleDateString('es-AR') + ' ' + fecha.toLocaleTimeString('es-AR', {
@@ -85,6 +142,7 @@ const HistorialDatos = () => {
   const volverACarpetas = () => {
     setCarpetaSeleccionada(null);
     setDatosAnalisis([]);
+    setDatosAnalisisFiltrados([]);
   };
 
   if (loading) {
@@ -227,6 +285,43 @@ const HistorialDatos = () => {
                 </div>
               </div>
 
+              {/* Controles de filtro */}
+              <div className="filtros-container">
+                <h4>Ordenar por:</h4>
+                <div className="filtros-botones">
+                  <button 
+                    onClick={() => cambiarFiltro('fecha')} 
+                    className={`filtro-btn ${filtroActivo === 'fecha' ? 'activo' : ''}`}
+                  >
+                    Fecha {filtroActivo === 'fecha' && (ordenAscendente ? '↑' : '↓')}
+                  </button>
+                  <button 
+                    onClick={() => cambiarFiltro('usuario')} 
+                    className={`filtro-btn ${filtroActivo === 'usuario' ? 'activo' : ''}`}
+                  >
+                    Usuario {filtroActivo === 'usuario' && (ordenAscendente ? '↑' : '↓')}
+                  </button>
+                  <button 
+                    onClick={() => cambiarFiltro('tension')} 
+                    className={`filtro-btn ${filtroActivo === 'tension' ? 'activo' : ''}`}
+                  >
+                    Tensión {filtroActivo === 'tension' && (ordenAscendente ? '↑' : '↓')}
+                  </button>
+                  <button 
+                    onClick={() => cambiarFiltro('elongacion')} 
+                    className={`filtro-btn ${filtroActivo === 'elongacion' ? 'activo' : ''}`}
+                  >
+                    Elongación {filtroActivo === 'elongacion' && (ordenAscendente ? '↑' : '↓')}
+                  </button>
+                  <button 
+                    onClick={() => cambiarFiltro('modulo')} 
+                    className={`filtro-btn ${filtroActivo === 'modulo' ? 'activo' : ''}`}
+                  >
+                    Módulo Young {filtroActivo === 'modulo' && (ordenAscendente ? '↑' : '↓')}
+                  </button>
+                </div>
+              </div>
+
               {/* Tabla detallada de análisis individuales */}
               <div className="tabla-responsive">
                 <table className="tabla-analisis">
@@ -241,7 +336,7 @@ const HistorialDatos = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {datosAnalisis.map((d) => (
+                    {datosAnalisisFiltrados.map((d) => (
                       <tr key={d.id}>
                         <td className="id-column">{d.id}</td>
                         <td className="fecha-column">{formatearFecha(d.fecha_analisis)}</td>
@@ -274,7 +369,7 @@ const HistorialDatos = () => {
         onClick={cargarDatosRelevantes}
         className="btn-actualizar"
       >
-        Actualizar Datos
+        🔄 Actualizar Datos
       </button>
     </div>
   );

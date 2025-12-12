@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import * as XLSX from "xlsx";
 import "./AnalisisForm.css";
 
 const AnalisisForm = ({ usuario }) => {
@@ -41,15 +42,42 @@ const AnalisisForm = ({ usuario }) => {
   const leerArchivoOriginal = (archivo) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = (e) => resolve(e.target.result);
-      reader.onerror = reject;
-      reader.readAsText(archivo, 'UTF-8');
+      
+      // Detectar tipo de archivo
+      const esExcel = archivo.name.endsWith('.xlsx') || archivo.name.endsWith('.xls');
+      
+      if (esExcel) {
+        // Para Excel, leer como ArrayBuffer
+        reader.onload = (e) => {
+          try {
+            const data = e.target.result;
+            const workbook = XLSX.read(data, { type: 'array' });
+            const primeraHoja = workbook.SheetNames[0];
+            const hoja = workbook.Sheets[primeraHoja];
+            
+            // Convertir a CSV
+            const csv = XLSX.utils.sheet_to_csv(hoja, { blankrows: false });
+            resolve(csv);
+          } catch (error) {
+            reject(error);
+          }
+        };
+        reader.onerror = reject;
+        reader.readAsArrayBuffer(archivo);
+      } else {
+        // Para CSV/TXT, leer como texto
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = reject;
+        reader.readAsText(archivo, 'UTF-8');
+      }
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); setError(""); setResultados(null);
+    setLoading(true);
+    setError("");
+    setResultados(null);
 
     try {
       if (!formData.archivo || !formData.carpeta_id) {
@@ -59,8 +87,10 @@ const AnalisisForm = ({ usuario }) => {
       }
 
       const archivoOriginal = await leerArchivoOriginal(formData.archivo);
-      if (!archivoOriginal.includes('Archivo;') && !archivoOriginal.includes(';')) {
-        setError("El archivo no es un CSV válido");
+      
+      // Validar que sea un archivo válido (CSV o Excel convertido a CSV)
+      if (!archivoOriginal.includes(';') && !archivoOriginal.includes(',')) {
+        setError("El archivo no parece ser un formato válido (CSV, XLS o XLSX)");
         setLoading(false);
         return;
       }
@@ -94,7 +124,8 @@ const AnalisisForm = ({ usuario }) => {
         setError(data.error || 'Error al procesar');
       }
     } catch (error) {
-      setError('Error de conexión');
+      console.error('Error:', error);
+      setError('Error de conexión o al procesar el archivo');
     } finally {
       setLoading(false);
     }
@@ -118,20 +149,35 @@ const AnalisisForm = ({ usuario }) => {
         </div>
 
         <div className="form-group">
-          <label>Área (mm²): <input type="number" step="0.01" name="area" value={formData.area} onChange={handleChange} /></label>
+          <label>Área (mm²): 
+            <input type="number" step="0.01" name="area" value={formData.area} onChange={handleChange} />
+          </label>
           <small>Opcional (toma del CSV si está vacío)</small>
         </div>
 
         <div className="form-group">
-          <label>Distancia mordazas L₀ (mm): * <input type="number" step="0.01" name="distancia" value={formData.distancia} onChange={handleChange} required /></label>
+          <label>Distancia mordazas L₀ (mm): * 
+            <input type="number" step="0.01" name="distancia" value={formData.distancia} onChange={handleChange} required />
+          </label>
         </div>
 
         <div className="form-group">
-          <label>Constante: <input type="number" step="0.001" name="constante" value={formData.constante} onChange={handleChange} /></label>
+          <label>Constante: 
+            <input type="number" step="0.001" name="constante" value={formData.constante} onChange={handleChange} />
+          </label>
         </div>
 
         <div className="form-group">
-          <label>Archivo CSV: * <input type="file" name="archivo" accept=".csv,.txt" onChange={handleChange} required /></label>
+          <label>Archivo de Datos: * 
+            <input 
+              type="file" 
+              name="archivo" 
+              accept=".csv,.txt,.xls,.xlsx" 
+              onChange={handleChange} 
+              required 
+            />
+          </label>
+          <small>Formatos soportados: CSV, TXT, XLS, XLSX</small>
         </div>
 
         <button type="submit" disabled={loading} className="btn-procesar">
@@ -156,10 +202,10 @@ const AnalisisForm = ({ usuario }) => {
               boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
             }}>
               <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#28a745' }}>
-                {resultados.deformacion_nominal_porc?.toFixed(2)} %
+                {resultados.elongacion_ruptura?.toFixed(2)} %
               </div>
               <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-                Deformación Nominal (Adimensional)
+                Elongación de Ruptura
               </div>
             </div>
             

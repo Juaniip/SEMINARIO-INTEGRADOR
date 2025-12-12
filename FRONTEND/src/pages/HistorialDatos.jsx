@@ -236,7 +236,7 @@ const HistorialDatos = () => {
                       <th>Fecha</th>
                       <th>Usuario</th>
                       <th>Tensión Máxima (MPa)</th>
-                      <th>Elongación Ruptura (%)</th>
+                      <th>Elongación Ruptura (mm)</th>
                       <th>Módulo Young (MPa)</th>
                     </tr>
                   </thead>

@@ -36,7 +36,8 @@ const AdminUsuarios = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/login', {
+      // ✅ CAMBIO: Usar /api/usuarios en lugar de /api/login
+      const response = await fetch('http://localhost:5000/api/usuarios', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -80,7 +81,8 @@ const AdminUsuarios = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/login', {
+      // ✅ CAMBIO: Usar /api/usuarios para crear usuario
+      const response = await fetch('http://localhost:5000/api/usuarios', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -112,7 +114,7 @@ const AdminUsuarios = () => {
   const eliminarUsuario = async (id, nombreUsuario) => {
     // Protección en el frontend también
     if (nombreUsuario === 'FORPW') {
-      alert('🔒 El usuario FORPW es el administrador principal del sistema y está protegido contra eliminación por motivos de seguridad.');
+      alert('🔐 El usuario FORPW es el administrador principal del sistema y está protegido contra eliminación por motivos de seguridad.');
       return;
     }
 
@@ -122,7 +124,8 @@ const AdminUsuarios = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/login/${id}`, {
+      // ✅ CAMBIO: Usar /api/usuarios/:id para eliminar usuario
+      const response = await fetch(`http://localhost:5000/api/usuarios/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -295,7 +298,7 @@ const AdminUsuarios = () => {
                 <td className="usuario-column">{usuario.usuario}</td>
                 <td>
                   <span className={`badge-rol ${usuario.rol}`}>
-                    {usuario.rol === 'administrador' ? '👑 Administrador' : '👤 Usuario'}
+                    {usuario.rol === 'administrador' ? '🔑 Administrador' : '👤 Usuario'}
                   </span>
                 </td>
                 <td className="fecha-column">
@@ -313,7 +316,7 @@ const AdminUsuarios = () => {
                       </button>
                     )}
                     {usuario.usuario === 'FORPW' && (
-                      <span className="texto-protegido">🔒 Protegido</span>
+                      <span className="texto-protegido">🔐 Protegido</span>
                     )}
                   </div>
                 </td>

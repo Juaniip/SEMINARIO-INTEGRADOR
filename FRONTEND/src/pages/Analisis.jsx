@@ -147,14 +147,35 @@ const AnalisisForm = ({ usuario }) => {
               <div className="res-valor" style={{color:'#007bff'}}>{resultados.tension_maxima?.toFixed(3)} MPa</div>
               <div className="res-label">Tensión Máxima</div>
             </div>
-            <div className="resultado-item">
-              {/* Aquí ahora usamos directamente elongacion_ruptura porque viene en % */}
-              <div className="res-valor" style={{color:'#28a745'}}>{resultados.elongacion_ruptura?.toFixed(2)} %</div>
-              <div className="res-label">Elongación Ruptura</div>
+            
+            <div className="resultado-item" style={{
+              padding: '15px',
+              backgroundColor: 'white',
+              borderRadius: '6px',
+              textAlign: 'center',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+            }}>
+              <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#28a745' }}>
+                {resultados.deformacion_nominal_porc?.toFixed(2)} %
+              </div>
+              <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
+                Deformación Nominal (Adimensional)
+              </div>
             </div>
-            <div className="resultado-item">
-              <div className="res-valor" style={{color:'#dc3545'}}>{resultados.modulo_young?.toFixed(3)} MPa</div>
-              <div className="res-label">Módulo de Young</div>
+            
+            <div className="resultado-item" style={{
+              padding: '15px',
+              backgroundColor: 'white',
+              borderRadius: '6px',
+              textAlign: 'center',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+            }}>
+              <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#dc3545' }}>
+                {resultados.modulo_young?.toFixed(3)} MPa
+              </div>
+              <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
+                Módulo de Elasticidad (E)
+              </div>
             </div>
           </div>
         </div>

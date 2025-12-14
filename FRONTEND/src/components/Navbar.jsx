@@ -40,11 +40,12 @@ const Navbar = ({ isAuthenticated, onLogout, usuario, usuarioData }) => {
             <li><Link to="/analisis" onClick={() => setMenuOpen(false)}>Análisis</Link></li>
             <li><Link to="/registros" onClick={() => setMenuOpen(false)}>Registros</Link></li>
 
-            {usuarioData?.rol === "administrador" && (
-              <li><Link to="/admin/usuarios" onClick={() => setMenuOpen(false)}>👑 Administración</Link></li>
-            )}
-
             <li><Link to="/contacto" onClick={() => setMenuOpen(false)}>Contacto</Link></li>
+
+
+            {usuarioData?.rol === "administrador" && (
+              <li><Link to="/admin/usuarios" onClick={() => setMenuOpen(false)}>Administración</Link></li>
+            )}
 
             <li className="user-info">
               <span>👤 {usuario} ({usuarioData?.rol})</span>

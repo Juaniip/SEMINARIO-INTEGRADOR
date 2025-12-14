@@ -1,14 +1,14 @@
 /* ===============================================
-AnalisisForm.css (Armonizado y Corregido)
+AnalisisForm.css
 ===============================================
 */
 
 .analisis-container {
-    padding: 20px;
+    padding: 10px;
 }
 
 .analisis-form {
-  max-width: 450px;
+  max-width: 550px;
   margin: 0 auto;
   padding: 30px;
   background: white;
@@ -76,12 +76,10 @@ AnalisisForm.css (Armonizado y Corregido)
   display: flex;
   gap: 8px;
   align-items: center;
-  margin-top: 5px;
 }
 
 .carpeta-select-container select {
   flex: 1;
-  margin-top: 0;
 }
 
 .btn-crear-carpeta-inline {
@@ -112,9 +110,6 @@ AnalisisForm.css (Armonizado y Corregido)
   transform: translateY(0);
 }
 
-/* ============================================
-   FORMULARIO INLINE PARA CREAR CARPETA (CORREGIDO)
-   ============================================ */
 
 .form-carpeta-inline {
   display: flex;
@@ -273,23 +268,42 @@ AnalisisForm.css (Armonizado y Corregido)
     color: #0056b3;
 }
 
-/* ============================================
-   RESPONSIVE DESIGN
-   ============================================ */
 
 @media (max-width: 480px) {
   .carpeta-select-container {
-    flex-direction: column;
-    gap: 6px;
+    display: flex;
+    gap: 8px;
+    align-items: stretch
+    margin-top: 5px;
   }
 
   .carpeta-select-container select {
-    width: 100%;
+    flex: 1;
+    margin-top: 0;
+    box-sizing: border-box;
+    padding: 10px;
+    height: auto;
+    min-height: 42px;
   }
-
+ 
   .btn-crear-carpeta-inline {
-    width: 100%;
-    min-width: unset;
+    background: linear-gradient(135deg, #c7a2eb 0%, #6b3291 100%);
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    height: auto; /* Cambiado de 42px a auto */
+    min-height: 42px;
+    display: inline-flex; /* Cambiado de flex a inline-flex */
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-sizing: border-box; /* Añadido */
   }
 
   .form-carpeta-inline {

@@ -162,10 +162,13 @@
     display: flex;
     gap: 6px;
     justify-content: center;
+    align-items: center;
+    min-height: 56px;
+    width: 100%;
 }
 
 .btn-accion {
-    padding: 6px 8px;
+    padding: 0;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -175,6 +178,16 @@
     align-items: center;
     transition: all 0.3s ease;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    justify-content: center;
+    margin: 0; 
+
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    vertical-align: middle;
 }
 
 .btn-accion:hover {
@@ -202,4 +215,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.btn-accion i,
+.btn-accion svg,
+.btn-accion::before {
+    display: block;
+    line-height: 1;
 }

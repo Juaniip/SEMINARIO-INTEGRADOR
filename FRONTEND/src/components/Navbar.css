@@ -97,6 +97,12 @@
   box-shadow: 0 4px 8px rgba(102, 126, 234, 0.5);
 }
 
+.navbar-logo {
+    height: 40px; /* Ajusta el tamaño que necesites */
+    width: auto;
+    display: block;
+}
+
 /* Información del usuario */
 .user-info {
   background: rgba(0, 0, 0, 0.2);

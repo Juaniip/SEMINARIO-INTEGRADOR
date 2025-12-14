@@ -94,10 +94,6 @@ const HistorialDatos = () => {
           valorA = new Date(a.fecha_analisis);
           valorB = new Date(b.fecha_analisis);
           break;
-        case 'usuario':
-          valorA = (a.nombre_usuario || '').toLowerCase();
-          valorB = (b.nombre_usuario || '').toLowerCase();
-          break;
         case 'tension':
           valorA = a.tension_maxima || 0;
           valorB = b.tension_maxima || 0;
@@ -148,8 +144,12 @@ const HistorialDatos = () => {
   if (loading) {
     return (
       <div className="historial-container">
-        <h2>Historial de Datos Relevantes</h2>
-        <div className="loading-message">Cargando datos...</div>
+        <div className="datos-relevantes-header">
+          <h2>Historial de Datos Relevantes</h2>
+        </div>
+        <div style={{ paddingTop: '40px', textAlign: 'center', color: '#0056b3' }}>
+          Cargando datos...
+        </div>
       </div>
     );
   }
@@ -157,11 +157,13 @@ const HistorialDatos = () => {
   if (error && carpetas.length === 0) {
     return (
       <div className="historial-container">
-        <h2>Historial de Datos Relevantes</h2>
-        <div className="error-message">
+        <div className="datos-relevantes-header">
+          <h2>Historial de Datos Relevantes</h2>
+        </div>
+        <div style={{ padding: '20px', background: '#ffebee', color: '#c62828', borderRadius: '8px', border: '1px solid #ef5350' }}>
           <strong>Error:</strong> {error}
           <br />
-          <button onClick={cargarDatosRelevantes} className="btn-actualizar">
+          <button onClick={cargarDatosRelevantes} className="btn-actualizar" style={{ marginTop: '15px' }}>
             Intentar de nuevo
           </button>
         </div>
@@ -172,13 +174,13 @@ const HistorialDatos = () => {
   return (
     <div className="historial-container">
       <div className="datos-relevantes-header">
-        <h2>Historial de Datos Relevantes</h2>
+        <h2>📊 Historial de Datos Relevantes</h2>
       </div>
 
       {/* Vista principal de carpetas */}
       {!carpetaSeleccionada && (
         <div className="carpetas-datos-container">
-          <h4>Carpetas con Análisis:</h4>
+          <h4>📁 Carpetas con Análisis</h4>
           
           {carpetas.length === 0 ? (
             <div className="no-data-message">
@@ -195,7 +197,7 @@ const HistorialDatos = () => {
                 >
                   <div className="carpeta-nombre">
                     📁 {carpeta.carpeta_nombre}
-                    <small className="carpeta-hint">(Clic para ver detalles)</small>
+                    <span className="carpeta-hint">(Click para detalles)</span>
                   </div>
                   <div className="carpeta-stats">
                     <div className="stat-item">
@@ -203,33 +205,21 @@ const HistorialDatos = () => {
                       <span className="stat-value">{carpeta.total_analisis}</span>
                     </div>
                     <div className="stat-item">
-                      <span className="stat-label">Tensión Promedio:</span>
+                      <span className="stat-label">Tensión Prom:</span>
                       <span className="stat-value">
-                        {carpeta.avg_tension ? carpeta.avg_tension.toFixed(2) : 'N/A'} MPa
+                        {carpeta.avg_tension ? carpeta.avg_tension.toFixed(1) : 'N/A'} MPa
                       </span>
                     </div>
                     <div className="stat-item">
-                      <span className="stat-label">Elongación Promedio:</span>
+                      <span className="stat-label">Elongación Prom:</span>
                       <span className="stat-value">
-                        {carpeta.avg_elongacion ? carpeta.avg_elongacion.toFixed(2) : 'N/A'} mm
+                        {carpeta.avg_elongacion ? carpeta.avg_elongacion.toFixed(1) : 'N/A'} mm
                       </span>
                     </div>
                     <div className="stat-item">
-                      <span className="stat-label">Módulo Promedio:</span>
+                      <span className="stat-label">Módulo Prom:</span>
                       <span className="stat-value">
-                        {carpeta.avg_modulo ? carpeta.avg_modulo.toFixed(2) : 'N/A'} MPa
-                      </span>
-                    </div>
-                    <div className="stat-item">
-                      <span className="stat-label">Máx Tensión:</span>
-                      <span className="stat-value">
-                        {carpeta.max_tension ? carpeta.max_tension.toFixed(2) : 'N/A'} MPa
-                      </span>
-                    </div>
-                    <div className="stat-item">
-                      <span className="stat-label">Máx Elongación:</span>
-                      <span className="stat-value">
-                        {carpeta.max_elongacion ? carpeta.max_elongacion.toFixed(2) : 'N/A'} mm
+                        {carpeta.avg_modulo ? carpeta.avg_modulo.toFixed(1) : 'N/A'} MPa
                       </span>
                     </div>
                   </div>
@@ -248,9 +238,9 @@ const HistorialDatos = () => {
           </button>
 
           <div className="carpeta-detalle-header">
-            <strong>Análisis detallados de: {carpetaSeleccionada.carpeta_nombre}</strong>
+            <strong>📈 Análisis detallados: {carpetaSeleccionada.carpeta_nombre}</strong>
             <br />
-            <small>Total de análisis: {carpetaSeleccionada.total_analisis}</small>
+            <small>Total: {carpetaSeleccionada.total_analisis} análisis</small>
           </div>
 
           {loadingAnalisis ? (
@@ -267,19 +257,19 @@ const HistorialDatos = () => {
                 </div>
                 <div className="resumen-item">
                   <div className="resumen-valor">
-                    {(datosAnalisis.reduce((sum, d) => sum + (d.tension_maxima || 0), 0) / datosAnalisis.length).toFixed(2)}
+                    {(datosAnalisis.reduce((sum, d) => sum + (d.tension_maxima || 0), 0) / datosAnalisis.length).toFixed(1)}
                   </div>
                   <div className="resumen-label">Promedio Tensión (MPa)</div>
                 </div>
                 <div className="resumen-item">
                   <div className="resumen-valor">
-                    {(datosAnalisis.reduce((sum, d) => sum + (d.elongacion_ruptura || 0), 0) / datosAnalisis.length).toFixed(2)}
+                    {(datosAnalisis.reduce((sum, d) => sum + (d.elongacion_ruptura || 0), 0) / datosAnalisis.length).toFixed(1)}
                   </div>
                   <div className="resumen-label">Promedio Elongación (mm)</div>
                 </div>
                 <div className="resumen-item">
                   <div className="resumen-valor">
-                    {(datosAnalisis.reduce((sum, d) => sum + (d.modulo_young || 0), 0) / datosAnalisis.length).toFixed(2)}
+                    {(datosAnalisis.reduce((sum, d) => sum + (d.modulo_young || 0), 0) / datosAnalisis.length).toFixed(1)}
                   </div>
                   <div className="resumen-label">Promedio Módulo Young (MPa)</div>
                 </div>
@@ -295,12 +285,7 @@ const HistorialDatos = () => {
                   >
                     Fecha {filtroActivo === 'fecha' && (ordenAscendente ? '↑' : '↓')}
                   </button>
-                  <button 
-                    onClick={() => cambiarFiltro('usuario')} 
-                    className={`filtro-btn ${filtroActivo === 'usuario' ? 'activo' : ''}`}
-                  >
-                    Usuario {filtroActivo === 'usuario' && (ordenAscendente ? '↑' : '↓')}
-                  </button>
+
                   <button 
                     onClick={() => cambiarFiltro('tension')} 
                     className={`filtro-btn ${filtroActivo === 'tension' ? 'activo' : ''}`}
@@ -327,11 +312,10 @@ const HistorialDatos = () => {
                 <table className="tabla-analisis">
                   <thead>
                     <tr>
-                      <th>ID Análisis</th>
+                      <th>ID</th>
                       <th>Fecha</th>
-                      <th>Usuario</th>
-                      <th>Tensión Máxima (MPa)</th>
-                      <th>Elongación Ruptura (mm)</th>
+                      <th>Tensión Máx (MPa)</th>
+                      <th>Elongación (mm)</th>
                       <th>Módulo Young (MPa)</th>
                     </tr>
                   </thead>
@@ -340,15 +324,14 @@ const HistorialDatos = () => {
                       <tr key={d.id}>
                         <td className="id-column">{d.id}</td>
                         <td className="fecha-column">{formatearFecha(d.fecha_analisis)}</td>
-                        <td>{d.nombre_usuario}</td>
                         <td className="numero-column">
-                          {d.tension_maxima ? d.tension_maxima.toFixed(3) : 'N/A'}
+                          {d.tension_maxima ? d.tension_maxima.toFixed(2) : 'N/A'}
                         </td>
                         <td className="numero-column">
-                          {d.elongacion_ruptura ? d.elongacion_ruptura.toFixed(3) : 'N/A'}
+                          {d.elongacion_ruptura ? d.elongacion_ruptura.toFixed(2) : 'N/A'}
                         </td>
                         <td className="numero-column">
-                          {d.modulo_young ? d.modulo_young.toFixed(3) : 'N/A'}
+                          {d.modulo_young ? d.modulo_young.toFixed(2) : 'N/A'}
                         </td>
                       </tr>
                     ))}
@@ -369,7 +352,7 @@ const HistorialDatos = () => {
         onClick={cargarDatosRelevantes}
         className="btn-actualizar"
       >
-         Actualizar Datos
+        🔄 Actualizar Datos
       </button>
     </div>
   );

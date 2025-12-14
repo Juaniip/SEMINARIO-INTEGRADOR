@@ -17,6 +17,10 @@ const HistorialAnalisis = () => {
   // Estados para crear nueva carpeta
   const [mostrarFormCarpeta, setMostrarFormCarpeta] = useState(false);
   const [nombreNuevaCarpeta, setNombreNuevaCarpeta] = useState("");
+  
+  // Estados para selección múltiple
+  const [seleccionados, setSeleccionados] = useState(new Set());
+  const [todoSeleccionado, setTodoSeleccionado] = useState(false);
 
   useEffect(() => {
     cargarCarpetas();
@@ -31,6 +35,11 @@ const HistorialAnalisis = () => {
   useEffect(() => {
     aplicarFiltro();
   }, [analisis, filtroActivo, ordenAscendente]);
+
+  useEffect(() => {
+    setSeleccionados(new Set());
+    setTodoSeleccionado(false);
+  }, [analisisFiltrados]);
 
   const cargarCarpetas = async () => {
     try {
@@ -51,7 +60,6 @@ const HistorialAnalisis = () => {
 
       if (response.ok) {
         setCarpetas(data);
-        // Seleccionar automáticamente la primera carpeta disponible si existe
         if (data.length > 0) {
           setCarpetaSeleccionada(data[0]);
         }
@@ -81,6 +89,8 @@ const HistorialAnalisis = () => {
 
       if (response.ok) {
         setAnalisis(data);
+        setSeleccionados(new Set());
+        setTodoSeleccionado(false);
       } else {
         setError(data.error || 'Error al cargar análisis de carpeta');
       }
@@ -114,7 +124,7 @@ const HistorialAnalisis = () => {
         alert('Carpeta creada exitosamente');
         setNombreNuevaCarpeta("");
         setMostrarFormCarpeta(false);
-        cargarCarpetas(); // Recargar lista de carpetas
+        cargarCarpetas();
       } else {
         alert(data.error || 'Error al crear carpeta');
       }
@@ -141,7 +151,6 @@ const HistorialAnalisis = () => {
       if (response.ok) {
         alert('Carpeta eliminada exitosamente');
         cargarCarpetas();
-        // Si eliminamos la carpeta seleccionada, volver a la primera disponible
         if (carpetaSeleccionada?.id === carpetaId) {
           const otrasCarpetas = carpetas.filter(c => c.id !== carpetaId);
           setCarpetaSeleccionada(otrasCarpetas.length > 0 ? otrasCarpetas[0] : null);
@@ -269,10 +278,76 @@ const HistorialAnalisis = () => {
     }
   };
 
+  const toggleSeleccion = (id) => {
+    const nuevoSet = new Set(seleccionados);
+    if (nuevoSet.has(id)) {
+      nuevoSet.delete(id);
+    } else {
+      nuevoSet.add(id);
+    }
+    setSeleccionados(nuevoSet);
+    setTodoSeleccionado(nuevoSet.size === analisisFiltrados.length);
+  };
+
+  const toggleTodos = () => {
+    if (todoSeleccionado) {
+      setSeleccionados(new Set());
+      setTodoSeleccionado(false);
+    } else {
+      const nuevosSeleccionados = new Set(analisisFiltrados.map(a => a.id));
+      setSeleccionados(nuevosSeleccionados);
+      setTodoSeleccionado(true);
+    }
+  };
+
+  const eliminarSeleccionados = async () => {
+    if (seleccionados.size === 0) {
+      alert('No hay análisis seleccionados');
+      return;
+    }
+
+    if (!window.confirm(`¿Estás seguro de que quieres eliminar ${seleccionados.size} análisis? Esta acción no se puede deshacer.`)) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      let eliminados = 0;
+      let errores = 0;
+
+      for (const id of seleccionados) {
+        const response = await fetch(`http://localhost:5000/api/analisis/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (response.ok) {
+          eliminados++;
+        } else {
+          errores++;
+        }
+      }
+
+      if (eliminados > 0) {
+        alert(`Se eliminaron ${eliminados} análisis exitosamente${errores > 0 ? ` (${errores} errores)` : ''}`);
+        setSeleccionados(new Set());
+        setTodoSeleccionado(false);
+        if (carpetaSeleccionada) {
+          cargarAnalisisCarpeta(carpetaSeleccionada.id);
+        }
+      }
+    } catch (error) {
+      console.error('Error al eliminar análisis:', error);
+      alert('Error de conexión al eliminar los análisis');
+    }
+  };
+
   if (loading && carpetas.length === 0) {
     return (
       <div className="historial-container">
-        <h2>Historial de Análisis</h2>
+        <h2>📋 Historial de Análisis</h2>
         <div className="loading-message">Cargando carpetas...</div>
       </div>
     );
@@ -281,7 +356,7 @@ const HistorialAnalisis = () => {
   if (error && carpetas.length === 0) {
     return (
       <div className="historial-container">
-        <h2>Historial de Análisis</h2>
+        <h2>📋 Historial de Análisis</h2>
         <div className="error-message">
           <strong>Error:</strong> {error}
           <br />
@@ -295,17 +370,16 @@ const HistorialAnalisis = () => {
 
   return (
     <div className="historial-container">
-      <h2>Historial de Análisis</h2>
+      <h2>📋 Historial de Análisis</h2>
       
-      {/* Sección de carpetas */}
       <div className="carpetas-container">
         <div className="carpetas-header">
-          <h4>Carpetas:</h4>
+          <h4>📁 Carpetas</h4>
           <button
             onClick={() => setMostrarFormCarpeta(!mostrarFormCarpeta)}
             className="btn-nueva-carpeta"
           >
-            {mostrarFormCarpeta ? 'Cancelar' : '+ Nueva Carpeta'}
+            {mostrarFormCarpeta ? 'Cancelar' : '+ Nueva'}
           </button>
         </div>
 
@@ -315,7 +389,7 @@ const HistorialAnalisis = () => {
               type="text"
               value={nombreNuevaCarpeta}
               onChange={(e) => setNombreNuevaCarpeta(e.target.value)}
-              placeholder="Nombre de la carpeta"
+              placeholder="Nombre de carpeta"
               className="input-carpeta"
               required
             />
@@ -341,7 +415,7 @@ const HistorialAnalisis = () => {
                 <button
                   onClick={() => eliminarCarpeta(carpeta.id, carpeta.nombre)}
                   className="btn-eliminar-carpeta"
-                  title="Eliminar carpeta (solo si está vacía)"
+                  title="Eliminar"
                 >
                   ❌
                 </button>
@@ -351,25 +425,22 @@ const HistorialAnalisis = () => {
         </div>
       </div>
 
-      {/* Contenido de la carpeta seleccionada */}
       {carpetaSeleccionada ? (
         <>
           <div className="carpeta-actual">
-            <strong>Viendo análisis de: {carpetaSeleccionada.nombre}</strong>
-            <br />
-            <small>Total de análisis en esta carpeta: {analisis.length}</small>
+            <strong>{carpetaSeleccionada.nombre}</strong>
+            <small>{analisis.length} análisis</small>
           </div>
 
           {analisis.length === 0 ? (
             <div className="no-data-message">
-              <h3>No hay análisis en esta carpeta</h3>
-              <p>Crea un nuevo análisis y selecciona esta carpeta para guardarlo aquí</p>
+              <h3>Sin análisis</h3>
+              <p>Esta carpeta está vacía</p>
             </div>
           ) : (
             <>
-              {/* Controles de filtro */}
               <div className="filtros-container">
-                <h4>Ordenar por:</h4>
+                <h4>Ordenar:</h4>
                 <div className="filtros-botones">
                   <button 
                     onClick={() => cambiarFiltro('fecha')} 
@@ -393,54 +464,87 @@ const HistorialAnalisis = () => {
                     onClick={() => cambiarFiltro('elongacion')} 
                     className={`filtro-btn ${filtroActivo === 'elongacion' ? 'activo' : ''}`}
                   >
-                    Elongación {filtroActivo === 'elongacion' && (ordenAscendente ? '↑' : '↓')}
+                    Elong. {filtroActivo === 'elongacion' && (ordenAscendente ? '↑' : '↓')}
                   </button>
                   <button 
                     onClick={() => cambiarFiltro('modulo')} 
                     className={`filtro-btn ${filtroActivo === 'modulo' ? 'activo' : ''}`}
                   >
-                    Módulo Young {filtroActivo === 'modulo' && (ordenAscendente ? '↑' : '↓')}
+                    Módulo {filtroActivo === 'modulo' && (ordenAscendente ? '↑' : '↓')}
                   </button>
                 </div>
               </div>
 
-              {/* Tabla de análisis */}
+              {analisisFiltrados.length > 0 && (
+                <div className="barra-seleccion">
+                  <div className="barra-left">
+                    <input
+                      type="checkbox"
+                      id="check-todos"
+                      checked={todoSeleccionado}
+                      onChange={toggleTodos}
+                      className="checkbox-todos"
+                    />
+                    <label htmlFor="check-todos" className="label-todos">
+                      Todos ({seleccionados.size}/{analisisFiltrados.length})
+                    </label>
+                  </div>
+                  {seleccionados.size > 0 && (
+                    <button 
+                      onClick={eliminarSeleccionados}
+                      className="btn-eliminar-multiples"
+                    >
+                      🗑️ Eliminar ({seleccionados.size})
+                    </button>
+                  )}
+                </div>
+              )}
+
               <div className="tabla-responsive">
                 <table className="tabla-analisis">
                   <thead>
                     <tr>
+                      <th className="col-checkbox">✓</th>
                       <th>ID</th>
                       <th>Fecha</th>
                       <th>Usuario</th>
                       <th>Archivo</th>
-                      <th>Área (mm²)</th>
-                      <th>Distancia (mm)</th>
-                      <th>Tensión Máx (MPa)</th>
-                      <th>Elongación (mm)</th>
-                      <th>Módulo Young (MPa)</th>
+                      <th>Área</th>
+                      <th>Dist.</th>
+                      <th>Tensión</th>
+                      <th>Elong.</th>
+                      <th>Módulo</th>
                       <th>Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
                     {analisisFiltrados.map((a) => (
-                      <tr key={a.id}>
+                      <tr key={a.id} className={seleccionados.has(a.id) ? 'fila-seleccionada' : ''}>
+                        <td className="col-checkbox">
+                          <input
+                            type="checkbox"
+                            checked={seleccionados.has(a.id)}
+                            onChange={() => toggleSeleccion(a.id)}
+                            className="checkbox-fila"
+                          />
+                        </td>
                         <td className="id-column">{a.id}</td>
                         <td className="fecha-column">{formatearFecha(a.fecha_analisis)}</td>
                         <td className="usuario-column">{a.nombre_usuario}</td>
                         <td className="archivo-column" title={a.archivo_nombre}>
-                          {a.archivo_nombre || 'N/A'}
+                          {a.archivo_nombre ? a.archivo_nombre.substring(0, 15) + '...' : 'N/A'}
                         </td>
                         <td className="numero-column">{a.area}</td>
                         <td className="numero-column">{a.distancia}</td>
-                        <td className="numero-column">{a.tension_maxima?.toFixed(2) || 'N/A'}</td>
-                        <td className="numero-column">{a.elongacion_ruptura?.toFixed(2) || 'N/A'}</td>
-                        <td className="numero-column">{a.modulo_young?.toFixed(2) || 'N/A'}</td>
+                        <td className="numero-column">{a.tension_maxima?.toFixed(1) || 'N/A'}</td>
+                        <td className="numero-column">{a.elongacion_ruptura?.toFixed(1) || 'N/A'}</td>
+                        <td className="numero-column">{a.modulo_young?.toFixed(1) || 'N/A'}</td>
                         <td>
                           <div className="acciones-container">
                             <button
                               onClick={() => descargarCSV(a.id, a.archivo_nombre)}
                               className="btn-accion btn-descargar"
-                              title="Descargar archivo CSV original"
+                              title="Descargar"
                             >
                               📄
                             </button>
@@ -448,7 +552,7 @@ const HistorialAnalisis = () => {
                             <Link 
                               to={`/reporte-analisis/${a.id}`}
                               className="btn-accion btn-reporte"
-                              title="Ver reporte completo con gráficas"
+                              title="Reporte"
                             >
                               📊
                             </Link>
@@ -456,7 +560,7 @@ const HistorialAnalisis = () => {
                             <button
                               onClick={() => eliminarAnalisis(a.id)}
                               className="btn-accion btn-eliminar"
-                              title="Eliminar análisis"
+                              title="Eliminar"
                             >
                               🗑️
                             </button>
@@ -473,7 +577,7 @@ const HistorialAnalisis = () => {
       ) : (
         <div className="no-data-message">
           <h3>Selecciona una carpeta</h3>
-          <p>Elige una carpeta de arriba para ver sus análisis</p>
+          <p>Elige una carpeta para ver sus análisis</p>
         </div>
       )}
       
@@ -486,7 +590,7 @@ const HistorialAnalisis = () => {
         }}
         className="btn-actualizar"
       >
-        Actualizar
+        🔄 Actualizar
       </button>
     </div>
   );

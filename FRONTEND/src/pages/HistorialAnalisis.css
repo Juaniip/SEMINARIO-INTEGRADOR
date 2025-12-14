@@ -1,241 +1,795 @@
-/* Contenedor de carpetas */
+/* ============================================
+   ESTILOS PRINCIPALES - HISTORIAL ANÁLISIS
+   ============================================ */
+
+/* Contenedor principal */
+.historial-container {
+  padding: 15px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.historial-container h2 {
+  color: #007bff;
+  margin-bottom: 20px;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+/* ============================================
+   MENSAJES DE ESTADO
+   ============================================ */
+
+.loading-message,
+.error-message {
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.loading-message {
+  background: #e3f2fd;
+  color: #0056b3;
+  border: 1px solid #90caf9;
+}
+
+.error-message {
+  background: #ffebee;
+  color: #c62828;
+  border: 1px solid #ef5350;
+}
+
+.error-message strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* Botón actualizar */
+.btn-actualizar {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 15px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.btn-actualizar:hover {
+  background: linear-gradient(135deg, #0056b3 0%, #003d82 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 87, 179, 0.3);
+}
+
+/* ============================================
+   CONTENEDOR DE CARPETAS
+   ============================================ */
+
 .carpetas-container {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 25px;
-    border: 1px solid #dee2e6;
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .carpetas-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 10px;
 }
 
 .carpetas-header h4 {
-    margin: 0;
-    color: #007bff;
+  margin: 0;
+  color: #007bff;
+  font-size: 15px;
+  font-weight: 600;
 }
 
+/* Botón nueva carpeta */
 .btn-nueva-carpeta {
-    background: linear-gradient(135deg, #a459cf 0%, #68236a 100%); /* Verde para "Nuevo" */
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s ease;
+  background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .btn-nueva-carpeta:hover {
-    background: linear-gradient(135deg, #875bad 0%, #5f0b6e 100%);
-    transform: translateY(-1px);
+  background: linear-gradient(135deg, #1e7e34 0%, #155724 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
 }
 
 /* Formulario nueva carpeta */
 .form-nueva-carpeta {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-    align-items: center;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  align-items: center;
 }
 
 .input-carpeta {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 13px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-carpeta:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.btn-crear-carpeta {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-crear-carpeta:hover {
+  background: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(33, 136, 56, 0.3);
 }
 
 /* Lista de carpetas */
 .carpetas-lista {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .carpeta-item {
-    display: flex;
-    align-items: center;
-    background: white;
-    border: 2px solid #e9ecef;
-    border-radius: 6px;
-    justify-content: space-between;
-    padding: 6px 10px;
-    cursor: pointer;
-
-    font-size: 14px;
-    line-height: 1; 
-
-
-    transition: all 0.3s ease;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 6px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .carpeta-item:hover {
-    border-color: #81b0e3;
-    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
-    transform: translateY(-1px);
+  border-color: #007bff;
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 .carpeta-item.selected {
-    background: #8eaccd;
-    color: white;
-    border-color: #4b647e;
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
 }
 
 .carpeta-item.selected .btn-eliminar-carpeta {
-    color: white;
+  color: rgba(255, 255, 255, 0.8);
 }
 
-/* Botón eliminar oculto por defecto */
+.carpeta-nombre {
+  flex: 1;
+  user-select: none;
+}
+
 .btn-eliminar-carpeta {
-    display: flex;                
-    align-items: center;          
-    justify-content: center;
-
-    font-size: 14px;              
-    line-height: 1;
-
-    opacity: 0;
-    pointer-events: none;   /* no clickeable cuando está oculto */
-    transition: opacity 0.2s ease;
-    background: none;
-    border: none;
-    cursor: pointer;
+  background: transparent;
+  border: none;
+  color: #999;
+  margin-left: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+  transition: all 0.3s ease;
 }
 
-.carpeta-item:hover .btn-eliminar-carpeta {
-    opacity: 1;
-    pointer-events: auto;   /* vuelve a ser clickeable */
-}
 .btn-eliminar-carpeta:hover {
-    color: #dc3545; /* Rojo para eliminar */
+  color: #dc3545;
+  transform: scale(1.2);
 }
 
-/* Carpeta actual */
+/* ============================================
+   CARPETA ACTUAL
+   ============================================ */
+
 .carpeta-actual {
-    background: #e3f2fd;
-    padding: 15px;
-    border-radius: 6px;
-    margin-bottom: 20px;
-    text-align: center;
-    border: 1px solid #90caf9;
-    color: #0056b3;
+  background: linear-gradient(135deg, #e3f2fd 0%, #f3f8ff 100%);
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  text-align: center;
+  border: 1px solid #90caf9;
+  color: #0056b3;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.1);
 }
 
-/* Controles de filtro */
+.carpeta-actual strong {
+  font-size: 15px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.carpeta-actual small {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+/* ============================================
+   MENSAJES SIN DATOS
+   ============================================ */
+
+.no-data-message {
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px dashed #dee2e6;
+  margin: 15px 0;
+}
+
+.no-data-message h3 {
+  color: #495057;
+  margin: 0 0 8px 0;
+  font-size: 16px;
+}
+
+.no-data-message p {
+  color: #6c757d;
+  margin: 0;
+  font-size: 13px;
+}
+
+/* ============================================
+   FILTROS
+   ============================================ */
+
 .filtros-container {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 25px;
-    border: 1px solid #dee2e6;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .filtros-container h4 {
-    margin: 0 0 15px 0;
-    color: #007bff;
-    font-size: 16px;
+  margin: 0 0 10px 0;
+  color: #007bff;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .filtros-botones {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .filtro-btn {
-    padding: 10px 15px;
-    border: 1px solid #007bff;
-    background: white;
-    color: #007bff;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 13px;
-    transition: all 0.3s ease;
-    white-space: nowrap;
+  padding: 8px 12px;
+  border: 1px solid #007bff;
+  background: white;
+  color: #007bff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .filtro-btn:hover {
-    background: #e7f3ff;
-    transform: translateY(-1px);
+  background: #e7f3ff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
 }
 
 .filtro-btn.activo {
-    background: #007bff;
-    color: white;
-    box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
-    border-color: #0056b3;
+  background: #007bff;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+  border-color: #0056b3;
 }
 
-/* Acciones en Tabla */
+/* ============================================
+   BARRA DE SELECCIÓN MÚLTIPLE
+   ============================================ */
+
+.barra-seleccion {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  gap: 12px;
+}
+
+.barra-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox-todos {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #ffc107;
+}
+
+.label-todos {
+  color: #856404;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+  margin: 0;
+}
+
+.btn-eliminar-multiples {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.btn-eliminar-multiples:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+/* ============================================
+   TABLA DE ANÁLISIS
+   ============================================ */
+
+.tabla-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: white;
+  margin-bottom: 12px;
+}
+
+.tabla-analisis {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.tabla-analisis thead {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+}
+
+.tabla-analisis thead th {
+  padding: 10px 8px;
+  text-align: left;
+  border-bottom: 2px solid #0056b3;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tabla-analisis tbody tr {
+  border-bottom: 1px solid #e9ecef;
+  transition: background 0.2s ease;
+}
+
+.tabla-analisis tbody tr:hover {
+  background: #f8f9fa;
+  box-shadow: inset 0 0 8px rgba(0, 123, 255, 0.05);
+}
+
+.tabla-analisis tbody tr.fila-seleccionada {
+  background: #e3f2fd;
+  font-weight: 500;
+}
+
+.tabla-analisis tbody tr.fila-seleccionada:hover {
+  background: #bbdefb;
+}
+
+.tabla-analisis td {
+  padding: 9px 8px;
+  text-align: left;
+}
+
+.tabla-analisis td.numero-column {
+  text-align: right;
+  font-family: 'Courier New', monospace;
+}
+
+.tabla-analisis td.id-column {
+  font-weight: 600;
+  color: #007bff;
+  min-width: 40px;
+}
+
+.tabla-analisis td.fecha-column {
+  font-size: 10px;
+  color: #6c757d;
+  min-width: 130px;
+}
+
+.tabla-analisis td.usuario-column {
+  font-weight: 500;
+  color: #495057;
+}
+
+.tabla-analisis td.archivo-column {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #495057;
+}
+
+/* Columna de checkbox */
+.col-checkbox {
+  width: 45px;
+  text-align: center;
+}
+
+.checkbox-fila {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #007bff;
+}
+
+/* ============================================
+   ACCIONES
+   ============================================ */
+
 .acciones-container {
-    display: flex;
-    gap: 6px;
-    justify-content: center;
-    align-items: center;
-    min-height: 56px;
-    width: 100%;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
 }
 
 .btn-accion {
-    padding: 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    justify-content: center;
-    margin: 0; 
-
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    min-height: 40px;
-    flex-shrink: 0;
-    box-sizing: border-box;
-    vertical-align: middle;
+  padding: 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  vertical-align: middle;
+  font-weight: 500;
 }
 
 .btn-accion:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn-accion:active {
+  transform: translateY(0);
 }
 
 .btn-descargar {
-    background: #007bff;
-    color: white;
+  background: #007bff;
+  color: white;
+}
+
+.btn-descargar:hover {
+  background: #0056b3;
 }
 
 .btn-reporte {
-    background: #28a745; /* Verde para Reporte/Gráfica */
-    color: white;
+  background: #28a745;
+  color: white;
+}
+
+.btn-reporte:hover {
+  background: #218838;
 }
 
 .btn-eliminar {
-    background: #dc3545; /* Rojo para Eliminar */
-    color: white;
+  background: #dc3545;
+  color: white;
 }
 
-.archivo-column {
-    max-width: 150px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.btn-eliminar:hover {
+  background: #c82333;
 }
 
-.btn-accion i,
-.btn-accion svg,
-.btn-accion::before {
-    display: block;
-    line-height: 1;
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .tabla-analisis {
+    font-size: 10px;
+  }
+
+  .tabla-analisis th,
+  .tabla-analisis td {
+    padding: 8px 6px;
+  }
+
+  .btn-accion {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    font-size: 11px;
+  }
+
+  .carpeta-item {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .historial-container {
+    padding: 12px;
+  }
+
+  .historial-container h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+
+  .carpetas-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-nueva-carpeta {
+    width: 100%;
+    flex-shrink: 1;
+  }
+
+  .carpetas-lista {
+    gap: 6px;
+  }
+
+  .carpeta-item {
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+
+  .filtros-botones {
+    gap: 6px;
+  }
+
+  .filtro-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .barra-seleccion {
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+    padding: 10px;
+  }
+
+  .barra-left {
+    width: 100%;
+  }
+
+  .btn-eliminar-multiples {
+    width: 100%;
+    flex-shrink: 1;
+  }
+
+  .tabla-responsive {
+    overflow-x: scroll;
+    margin-bottom: 10px;
+  }
+
+  .tabla-analisis {
+    font-size: 9px;
+    min-width: 900px;
+  }
+
+  .tabla-analisis th,
+  .tabla-analisis td {
+    padding: 7px 5px;
+  }
+
+  .btn-accion {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    min-height: 28px;
+    font-size: 10px;
+  }
+
+  .acciones-container {
+    gap: 4px;
+  }
+
+  .carpeta-actual {
+    padding: 10px;
+    margin-bottom: 12px;
+  }
+
+  .carpeta-actual strong {
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  .carpeta-actual small {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .historial-container {
+    padding: 10px;
+  }
+
+  .historial-container h2 {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .carpetas-container {
+    padding: 10px;
+    margin-bottom: 12px;
+  }
+
+  .carpetas-header h4 {
+    font-size: 13px;
+  }
+
+  .btn-nueva-carpeta {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .input-carpeta {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .btn-crear-carpeta {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .carpeta-item {
+    font-size: 10px;
+    padding: 5px 6px;
+  }
+
+  .carpeta-actual {
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+
+  .carpeta-actual strong {
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+
+  .filtros-container {
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+
+  .filtros-container h4 {
+    margin: 0 0 6px 0;
+    font-size: 12px;
+  }
+
+  .filtros-botones {
+    gap: 4px;
+  }
+
+  .filtro-btn {
+    padding: 5px 8px;
+    font-size: 10px;
+  }
+
+  .barra-seleccion {
+    padding: 8px;
+    margin-bottom: 10px;
+    gap: 6px;
+  }
+
+  .checkbox-todos,
+  .checkbox-fila {
+    width: 14px;
+    height: 14px;
+  }
+
+  .label-todos {
+    font-size: 11px;
+  }
+
+  .btn-eliminar-multiples {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .tabla-responsive {
+    overflow-x: auto;
+    margin-bottom: 8px;
+  }
+
+  .tabla-analisis {
+    font-size: 8px;
+    min-width: 800px;
+  }
+
+  .tabla-analisis th,
+  .tabla-analisis td {
+    padding: 5px 4px;
+  }
+
+  .btn-accion {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    min-height: 26px;
+    font-size: 9px;
+  }
+
+  .btn-actualizar {
+    padding: 8px 12px;
+    font-size: 12px;
+    margin-top: 10px;
+  }
 }

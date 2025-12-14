@@ -18,7 +18,7 @@ const Navbar = ({ isAuthenticated, onLogout, usuario, usuarioData }) => {
       <div className="navbar-header">
         <div className="navbar-brand">
           <Link to="/">  
-            <img src="/img/logo3.png" alt="Logo" className="navbar-logo" />
+            <img src="/img/logo.jpeg" alt="Logo" className="navbar-logo" />
               Sistema de Laboratorio de Materiales
           </Link>
         </div>

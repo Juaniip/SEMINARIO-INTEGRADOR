@@ -155,7 +155,7 @@ const AnalisisForm = ({ usuario }) => {
         </div>
 
         <div className="form-group">
-          <label>Distancia mordazas L₀ (mm): * 
+          <label>Distancia entre mordazas L₀ (mm): * 
             <input type="number" step="0.01" name="distancia" value={formData.distancia} onChange={handleChange} required />
           </label>
         </div>

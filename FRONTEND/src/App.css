@@ -73,6 +73,11 @@ nav .links a:hover {
   line-height: 1.6;
 }
 
+.page-container li {
+  list-style: none;
+  padding-left: 0;
+}
+
 button {
   padding: 0.6rem 1.2rem;
   background-color: #61dafb;

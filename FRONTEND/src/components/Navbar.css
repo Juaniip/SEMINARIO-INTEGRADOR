@@ -311,3 +311,26 @@
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(220, 53, 69, 0.5);
 }
+
+.navbar-brand a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+  text-decoration: none;
+}
+
+/* Logo con fondo */
+.navbar-logo {
+  width: 50px;
+  height: 50px;
+  background-color: rgb(249, 247, 247);
+  padding: 6px;
+  border-radius: 12px;
+
+  /* centrar la imagen dentro */
+  object-fit: contain;
+
+  /* detalle visual */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}

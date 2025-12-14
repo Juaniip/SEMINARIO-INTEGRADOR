@@ -150,9 +150,8 @@ const AnalisisForm = ({ usuario }) => {
 
         <div className="form-group">
           <label>Área (mm²): 
-            <input type="number" step="0.01" name="area" value={formData.area} onChange={handleChange} />
+            <input type="number" step="0.01" name="area" value={formData.area} onChange={handleChange} placeholder="--Opcional: toma el valor del archivo si está vacio--"/>
           </label>
-          <small>Opcional (toma del CSV si está vacío)</small>
         </div>
 
         <div className="form-group">

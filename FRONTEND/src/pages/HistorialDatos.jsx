@@ -369,7 +369,7 @@ const HistorialDatos = () => {
         onClick={cargarDatosRelevantes}
         className="btn-actualizar"
       >
-        🔄 Actualizar Datos
+         Actualizar Datos
       </button>
     </div>
   );

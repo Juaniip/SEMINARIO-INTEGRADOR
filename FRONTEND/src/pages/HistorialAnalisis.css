@@ -20,7 +20,7 @@
 }
 
 .btn-nueva-carpeta {
-    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%); /* Verde para "Nuevo" */
+    background: linear-gradient(135deg, #a459cf 0%, #68236a 100%); /* Verde para "Nuevo" */
     color: white;
     border: none;
     padding: 8px 12px;
@@ -31,7 +31,7 @@
 }
 
 .btn-nueva-carpeta:hover {
-    background: linear-gradient(135deg, #1e7e34 0%, #155724 100%);
+    background: linear-gradient(135deg, #875bad 0%, #5f0b6e 100%);
     transform: translateY(-1px);
 }
 

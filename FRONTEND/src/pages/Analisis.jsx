@@ -14,6 +14,9 @@ const AnalisisForm = ({ usuario }) => {
   const [resultados, setResultados] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [mostrarFormCarpeta, setMostrarFormCarpeta] = useState(false);
+  const [nombreCarpeta, setNombreCarpeta] = useState("");
+  const [loadingCarpeta, setLoadingCarpeta] = useState(false);
 
   useEffect(() => {
     cargarCarpetas();
@@ -29,9 +32,52 @@ const AnalisisForm = ({ usuario }) => {
       if (response.ok) {
         const data = await response.json();
         setCarpetas(data);
-        if (data.length > 0) setFormData(prev => ({ ...prev, carpeta_id: data[0].id }));
+        if (data.length > 0 && !formData.carpeta_id) {
+          setFormData(prev => ({ ...prev, carpeta_id: data[0].id }));
+        }
       }
-    } catch (error) { console.error(error); }
+    } catch (error) { 
+      console.error(error); 
+    }
+  };
+
+  const crearCarpeta = async (e) => {
+    if (e) e.preventDefault(); // Prevenir recarga si se pasa el evento
+    
+    if (!nombreCarpeta.trim()) {
+      alert("Por favor ingresa un nombre para la carpeta");
+      return;
+    }
+
+    setLoadingCarpeta(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:5000/api/carpetas', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ nombre: nombreCarpeta.trim() })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setNombreCarpeta("");
+        setMostrarFormCarpeta(false);
+        cargarCarpetas();
+        setFormData(prev => ({ ...prev, carpeta_id: data.id }));
+        alert('Carpeta creada exitosamente');
+      } else {
+        alert(data.error || 'Error al crear carpeta');
+      }
+    } catch (error) {
+      console.error('Error al crear carpeta:', error);
+      alert('Error de conexión al crear carpeta');
+    } finally {
+      setLoadingCarpeta(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -43,19 +89,15 @@ const AnalisisForm = ({ usuario }) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       
-      // Detectar tipo de archivo
       const esExcel = archivo.name.endsWith('.xlsx') || archivo.name.endsWith('.xls');
       
       if (esExcel) {
-        // Para Excel, leer como ArrayBuffer
         reader.onload = (e) => {
           try {
             const data = e.target.result;
             const workbook = XLSX.read(data, { type: 'array' });
             const primeraHoja = workbook.SheetNames[0];
             const hoja = workbook.Sheets[primeraHoja];
-            
-            // Convertir a CSV
             const csv = XLSX.utils.sheet_to_csv(hoja, { blankrows: false });
             resolve(csv);
           } catch (error) {
@@ -65,7 +107,6 @@ const AnalisisForm = ({ usuario }) => {
         reader.onerror = reject;
         reader.readAsArrayBuffer(archivo);
       } else {
-        // Para CSV/TXT, leer como texto
         reader.onload = (e) => resolve(e.target.result);
         reader.onerror = reject;
         reader.readAsText(archivo, 'UTF-8');
@@ -88,7 +129,6 @@ const AnalisisForm = ({ usuario }) => {
 
       const archivoOriginal = await leerArchivoOriginal(formData.archivo);
       
-      // Validar que sea un archivo válido (CSV o Excel convertido a CSV)
       if (!archivoOriginal.includes(';') && !archivoOriginal.includes(',')) {
         setError("El archivo no parece ser un formato válido (CSV, XLS o XLSX)");
         setLoading(false);
@@ -141,34 +181,95 @@ const AnalisisForm = ({ usuario }) => {
 
         <div className="form-group">
           <label>Carpeta: *
-            <select name="carpeta_id" value={formData.carpeta_id} onChange={handleChange} required>
-              <option value="">Selecciona una carpeta</option>
-              {carpetas.map(c => <option key={c.id} value={c.id}>{c.nombre}</option>)}
-            </select>
+            <div className="carpeta-select-container">
+              <select 
+                name="carpeta_id" 
+                value={formData.carpeta_id} 
+                onChange={handleChange} 
+                required
+              >
+                <option value="">Selecciona una carpeta</option>
+                {carpetas.map(c => <option key={c.id} value={c.id}>{c.nombre}</option>)}
+              </select>
+              <button 
+                type="button"
+                className="btn-crear-carpeta-inline"
+                onClick={() => setMostrarFormCarpeta(!mostrarFormCarpeta)}
+                title="Crear nueva carpeta"
+              >
+                {mostrarFormCarpeta ? 'Cancelar' : 'Crear Carpeta'}
+              </button>
+            </div>
           </label>
+
+          {/* CORRECCIÓN: Usamos div en lugar de form para evitar anidamiento ilegal */}
+          {mostrarFormCarpeta && (
+            <div className="form-carpeta-inline">
+              <input
+                type="text"
+                value={nombreCarpeta}
+                onChange={(e) => setNombreCarpeta(e.target.value)}
+                onKeyDown={(e) => {
+                  // Detectamos Enter para enviar solo este campo
+                  if (e.key === 'Enter') {
+                    e.preventDefault(); 
+                    crearCarpeta(e);
+                  }
+                }}
+                placeholder="Nombre de la carpeta"
+                className="input-carpeta-inline"
+              />
+              <button 
+                type="button" // Tipo button para no enviar el form principal
+                onClick={crearCarpeta}
+                className="btn-enviar-carpeta"
+                disabled={loadingCarpeta}
+              >
+                {loadingCarpeta ? 'Creando...' : 'Crear'}
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="form-group">
           <label>Área (mm²): 
-            <input type="number" step="0.01" name="area" value={formData.area} onChange={handleChange} placeholder="--Opcional: toma el valor del archivo si está vacio--"/>
+            <input 
+              type="number" 
+              step="0.01" 
+              name="area" 
+              value={formData.area} 
+              onChange={handleChange} 
+              placeholder="--Opcional: toma el valor del archivo si está vacio--"
+            />
           </label>
         </div>
 
         <div className="form-group">
-          <label>Distancia entre mordazas L₀ (mm): * 
-            <input type="number" step="0.01" name="distancia" value={formData.distancia} onChange={handleChange} required />
+          <label>Distancia entre mordazas L₀ (mm): * <input 
+              type="number" 
+              step="0.01" 
+              name="distancia" 
+              value={formData.distancia} 
+              onChange={handleChange} 
+              required 
+            />
           </label>
         </div>
 
         <div className="form-group">
           <label>Constante: 
-            <input type="number" step="0.001" name="constante" value={formData.constante} onChange={handleChange} />
+            <input 
+              type="number" 
+              step="0.001" 
+              name="constante" 
+              value={formData.constante} 
+              onChange={handleChange} 
+            />
           </label>
         </div>
 
         <div className="form-group">
-          <label>Archivo de Datos: * 
-            <input 
+          <label>Archivo de Datos: * <input 
               type="file" 
               name="archivo" 
               accept=".csv,.txt,.xls,.xlsx" 
@@ -188,38 +289,24 @@ const AnalisisForm = ({ usuario }) => {
           <h3>✅ Resultados Obtenidos</h3>
           <div className="resultados-grid">
             <div className="resultado-item">
-              <div className="res-valor" style={{color:'#007bff'}}>{resultados.tension_maxima?.toFixed(3)} MPa</div>
+              <div className="res-valor" style={{color:'#007bff'}}>
+                {resultados.tension_maxima?.toFixed(3)} MPa
+              </div>
               <div className="res-label">Tensión Máxima</div>
             </div>
             
-            <div className="resultado-item" style={{
-              padding: '15px',
-              backgroundColor: 'white',
-              borderRadius: '6px',
-              textAlign: 'center',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-            }}>
-              <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#28a745' }}>
+            <div className="resultado-item">
+              <div className="res-valor" style={{color:'#28a745'}}>
                 {resultados.elongacion_ruptura?.toFixed(2)} %
               </div>
-              <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-                Elongación de Ruptura
-              </div>
+              <div className="res-label">Elongación de Ruptura</div>
             </div>
             
-            <div className="resultado-item" style={{
-              padding: '15px',
-              backgroundColor: 'white',
-              borderRadius: '6px',
-              textAlign: 'center',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-            }}>
-              <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#dc3545' }}>
+            <div className="resultado-item">
+              <div className="res-valor" style={{color:'#dc3545'}}>
                 {resultados.modulo_young?.toFixed(3)} MPa
               </div>
-              <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-                Módulo de Elasticidad (E)
-              </div>
+              <div className="res-label">Módulo de Elasticidad (E)</div>
             </div>
           </div>
         </div>

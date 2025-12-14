@@ -1,10 +1,9 @@
 /* ===============================================
-AnalisisForm.css (Armonizado)
+AnalisisForm.css (Armonizado y Corregido)
 ===============================================
 */
 
 .analisis-container {
-    /* Contenedor principal para la vista, para que el formulario no esté pegado al borde */
     padding: 20px;
 }
 
@@ -59,6 +58,7 @@ AnalisisForm.css (Armonizado)
   border-radius: 6px;
   transition: border-color 0.3s ease;
   background-color: white;
+  box-sizing: border-box;
 }
 
 .analisis-form input:focus,
@@ -68,7 +68,118 @@ AnalisisForm.css (Armonizado)
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
 
-/* Estilo para el botón submit del formulario (Sobreescribe el estilo de index.css) */
+/* ============================================
+   CONTENEDOR DE SELECCIÓN Y BOTÓN 'NUEVA CARPETA'
+   ============================================ */
+
+.carpeta-select-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.carpeta-select-container select {
+  flex: 1;
+  margin-top: 0;
+}
+
+.btn-crear-carpeta-inline {
+  background: linear-gradient(135deg, #c7a2eb 0%, #6b3291 100%);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  min-width: 45px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.btn-crear-carpeta-inline:hover {
+  background: linear-gradient(135deg, #a57bcc 0%, #8940b3 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+.btn-crear-carpeta-inline:active {
+  transform: translateY(0);
+}
+
+/* ============================================
+   FORMULARIO INLINE PARA CREAR CARPETA (CORREGIDO)
+   ============================================ */
+
+.form-carpeta-inline {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  align-items: stretch; /* Asegura altura igualada */
+  width: 100%;          /* Ocupa todo el ancho disponible */
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.input-carpeta-inline {
+  flex: 1;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+.input-carpeta-inline:focus {
+  outline: none;
+  border-color: #28a745;
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+}
+
+.btn-enviar-carpeta {
+  background: #9f4ebe;
+  color: white;
+  border: none;
+  padding: 0 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  white-space: nowrap; /* Evita rotura de texto */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-enviar-carpeta:hover:not(:disabled) {
+  background: #7f349c;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(33, 136, 56, 0.3);
+}
+
+.btn-enviar-carpeta:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   BOTÓN SUBMIT PRINCIPAL Y RESULTADOS
+   ============================================ */
+
 .analisis-form button[type="submit"] {
     background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
     color: white;
@@ -97,7 +208,7 @@ AnalisisForm.css (Armonizado)
     transform: none;
 }
 
-/* Estilos para los resultados (movidos del JSX) */
+/* Estilos para los resultados */
 .resultados-container {
   max-width: 450px;
   margin: 30px auto;
@@ -151,7 +262,6 @@ AnalisisForm.css (Armonizado)
     color: #dc3545; /* Rojo para Módulo */
 }
 
-
 .alert-proximos-pasos {
     margin-top: 20px; 
     text-align: center;
@@ -161,4 +271,39 @@ AnalisisForm.css (Armonizado)
     border: 1px solid #90caf9;
     font-size: 13px;
     color: #0056b3;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 480px) {
+  .carpeta-select-container {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .carpeta-select-container select {
+    width: 100%;
+  }
+
+  .btn-crear-carpeta-inline {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .form-carpeta-inline {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .input-carpeta-inline {
+    width: 100%;
+  }
+
+  .btn-enviar-carpeta {
+    width: 100%;
+    min-width: unset;
+    padding: 10px;
+  }
 }

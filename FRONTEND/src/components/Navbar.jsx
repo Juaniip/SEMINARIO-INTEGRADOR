@@ -19,7 +19,7 @@ const Navbar = ({ isAuthenticated, onLogout, usuario, usuarioData }) => {
         <div className="navbar-brand">
           <Link to="/">  
             <img src="/img/logo3.JPG" alt="Logo" className="navbar-logo" />
-            Sistema de Evaluación Mecánica de Biopolímeros
+              Sistema de Laboratorio de Materiales
           </Link>
         </div>
 

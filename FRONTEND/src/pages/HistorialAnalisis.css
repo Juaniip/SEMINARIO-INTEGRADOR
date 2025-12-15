@@ -96,7 +96,7 @@
 
 /* Botón nueva carpeta */
 .btn-nueva-carpeta {
-  background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+  background: linear-gradient(135deg, #6e28a7 0%, #661e7e 100%);
   color: white;
   border: none;
   padding: 8px 12px;
@@ -110,7 +110,7 @@
 }
 
 .btn-nueva-carpeta:hover {
-  background: linear-gradient(135deg, #1e7e34 0%, #155724 100%);
+  background: linear-gradient(135deg, #641e7e 0%, #3a1557 100%);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
 }
@@ -678,11 +678,6 @@
 
   .carpetas-header h4 {
     font-size: 13px;
-  }
-
-  .btn-nueva-carpeta {
-    padding: 6px 10px;
-    font-size: 12px;
   }
 
   .input-carpeta {

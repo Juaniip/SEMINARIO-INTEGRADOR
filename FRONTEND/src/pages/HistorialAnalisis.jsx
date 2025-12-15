@@ -494,7 +494,7 @@ const HistorialAnalisis = () => {
                       onClick={eliminarSeleccionados}
                       className="btn-eliminar-multiples"
                     >
-                      🗑️ Eliminar ({seleccionados.size})
+                       Eliminar ({seleccionados.size})
                     </button>
                   )}
                 </div>

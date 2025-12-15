@@ -244,6 +244,7 @@ AdminUsuarios.css (Armonizado)
   border-radius: 8px;
   margin-bottom: 20px;
   border: 1px solid #dee2e6;
+  text-align: center;
 }
 
 .usuarios-info strong {

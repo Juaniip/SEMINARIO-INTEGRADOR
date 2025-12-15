@@ -338,7 +338,7 @@ const AdminUsuarios = () => {
         onClick={cargarUsuarios}
         className="btn-actualizar"
       >
-        🔄 Actualizar Lista
+        Actualizar Lista
       </button>
     </div>
   );

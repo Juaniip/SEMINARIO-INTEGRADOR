@@ -347,7 +347,7 @@ const HistorialAnalisis = () => {
   if (loading && carpetas.length === 0) {
     return (
       <div className="historial-container">
-        <h2>📋 Historial de Análisis</h2>
+        <h2> Historial de Análisis</h2>
         <div className="loading-message">Cargando carpetas...</div>
       </div>
     );
@@ -356,7 +356,7 @@ const HistorialAnalisis = () => {
   if (error && carpetas.length === 0) {
     return (
       <div className="historial-container">
-        <h2>📋 Historial de Análisis</h2>
+        <h2> Historial de Análisis</h2>
         <div className="error-message">
           <strong>Error:</strong> {error}
           <br />
@@ -370,7 +370,7 @@ const HistorialAnalisis = () => {
 
   return (
     <div className="historial-container">
-      <h2>📋 Historial de Análisis</h2>
+      <h2>Historial de Análisis</h2>
       
       <div className="carpetas-container">
         <div className="carpetas-header">
@@ -590,7 +590,7 @@ const HistorialAnalisis = () => {
         }}
         className="btn-actualizar"
       >
-        🔄 Actualizar
+        Actualizar
       </button>
     </div>
   );

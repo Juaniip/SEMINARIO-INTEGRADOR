@@ -32,9 +32,6 @@ const AnalisisForm = ({ usuario }) => {
       if (response.ok) {
         const data = await response.json();
         setCarpetas(data);
-        if (data.length > 0 && !formData.carpeta_id) {
-          setFormData(prev => ({ ...prev, carpeta_id: data[0].id }));
-        }
       }
     } catch (error) { 
       console.error(error); 
@@ -202,7 +199,6 @@ const AnalisisForm = ({ usuario }) => {
             </div>
           </label>
 
-          {/* CORRECCIÓN: Usamos div en lugar de form para evitar anidamiento ilegal */}
           {mostrarFormCarpeta && (
             <div className="form-carpeta-inline">
               <input
@@ -216,7 +212,7 @@ const AnalisisForm = ({ usuario }) => {
                     crearCarpeta(e);
                   }
                 }}
-                placeholder="Nombre de la carpeta"
+                placeholder="--Nombre de la carpeta--"
                 className="input-carpeta-inline"
               />
               <button 
@@ -286,7 +282,7 @@ const AnalisisForm = ({ usuario }) => {
 
       {resultados && (
         <div className="resultados-container">
-          <h3>✅ Resultados Obtenidos</h3>
+          <h3> Resultados Obtenidos</h3>
           <div className="resultados-grid">
             <div className="resultado-item">
               <div className="res-valor" style={{color:'#007bff'}}>
@@ -296,7 +292,7 @@ const AnalisisForm = ({ usuario }) => {
             </div>
             
             <div className="resultado-item">
-              <div className="res-valor" style={{color:'#28a745'}}>
+              <div className="res-valor" style={{color:'#28a737ff'}}>
                 {resultados.elongacion_ruptura?.toFixed(2)} %
               </div>
               <div className="res-label">Elongación de Ruptura</div>
@@ -306,7 +302,7 @@ const AnalisisForm = ({ usuario }) => {
               <div className="res-valor" style={{color:'#dc3545'}}>
                 {resultados.modulo_young?.toFixed(3)} MPa
               </div>
-              <div className="res-label">Módulo de Elasticidad (E)</div>
+              <div className="res-label">Módulo de Elasticidad</div>
             </div>
           </div>
         </div>

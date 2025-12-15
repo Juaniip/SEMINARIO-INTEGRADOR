@@ -244,6 +244,7 @@ AdminUsuarios.css (Armonizado)
   border-radius: 8px;
   margin-bottom: 20px;
   border: 1px solid #dee2e6;
+  text-align: center;
 }
 
 .usuarios-info strong {
@@ -292,12 +293,6 @@ AdminUsuarios.css (Armonizado)
   margin: 10px 0;
 }
 
-/* Estados */
-.loading-message,
-.error-message {
-  /* Estilos heredados de index.css/Global.css */
-}
-
 .btn-reintentar {
   background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
   color: white;
@@ -322,11 +317,6 @@ AdminUsuarios.css (Armonizado)
 
   .form-actions {
     flex-direction: column;
-  }
-
-  .btn-crear,
-  .btn-cancelar {
-    width: 100%;
   }
 
   .tabla-usuarios {

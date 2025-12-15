@@ -174,7 +174,7 @@ const HistorialDatos = () => {
   return (
     <div className="historial-container">
       <div className="datos-relevantes-header">
-        <h2>📊 Historial de Datos Relevantes</h2>
+        <h2>Historial de Datos Relevantes</h2>
       </div>
 
       {/* Vista principal de carpetas */}
@@ -238,7 +238,7 @@ const HistorialDatos = () => {
           </button>
 
           <div className="carpeta-detalle-header">
-            <strong>📈 Análisis detallados: {carpetaSeleccionada.carpeta_nombre}</strong>
+            <strong> Análisis detallados: {carpetaSeleccionada.carpeta_nombre}</strong>
             <br />
             <small>Total: {carpetaSeleccionada.total_analisis} análisis</small>
           </div>
@@ -352,7 +352,7 @@ const HistorialDatos = () => {
         onClick={cargarDatosRelevantes}
         className="btn-actualizar"
       >
-        🔄 Actualizar Datos
+        Actualizar Datos
       </button>
     </div>
   );

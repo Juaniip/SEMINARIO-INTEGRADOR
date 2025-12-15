@@ -96,7 +96,7 @@
 
 /* Botón nueva carpeta */
 .btn-nueva-carpeta {
-  background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+  background: linear-gradient(135deg, #6e28a7 0%, #661e7e 100%);
   color: white;
   border: none;
   padding: 8px 12px;
@@ -110,7 +110,7 @@
 }
 
 .btn-nueva-carpeta:hover {
-  background: linear-gradient(135deg, #1e7e34 0%, #155724 100%);
+  background: linear-gradient(135deg, #641e7e 0%, #3a1557 100%);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
 }
@@ -405,12 +405,10 @@
 }
 
 .tabla-analisis thead th {
-  padding: 10px 8px;
-  text-align: left;
+  text-align: center !important;
   border-bottom: 2px solid #0056b3;
   font-size: 11px;
   font-weight: 600;
-  white-space: nowrap;
 }
 
 .tabla-analisis tbody tr {
@@ -432,13 +430,24 @@
   background: #bbdefb;
 }
 
-.tabla-analisis td {
-  padding: 9px 8px;
-  text-align: left;
+.tabla-analisis th.col-checkbox {
+    text-align: center !important;
 }
 
+.tabla-analisis tbody td {
+    text-align: center !important;
+}
+
+.tabla-analisis td,
+.tabla-usuarios td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #f1f3f4;
+    font-size: 12px;
+    text-align: center;
+    vertical-align: middle;
+}
 .tabla-analisis td.numero-column {
-  text-align: right;
+  text-align: center;
   font-family: 'Courier New', monospace;
 }
 
@@ -446,17 +455,20 @@
   font-weight: 600;
   color: #007bff;
   min-width: 40px;
+  text-align: center;
 }
 
 .tabla-analisis td.fecha-column {
   font-size: 10px;
   color: #6c757d;
   min-width: 130px;
+  text-align: center;
 }
 
 .tabla-analisis td.usuario-column {
   font-weight: 500;
   color: #495057;
+  text-align: center;
 }
 
 .tabla-analisis td.archivo-column {
@@ -465,6 +477,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   color: #495057;
+  text-align: center;
 }
 
 /* Columna de checkbox */
@@ -477,8 +490,9 @@
   width: 16px;
   height: 16px;
   cursor: pointer;
-  accent-color: #007bff;
+  text-align: center;
 }
+
 
 /* ============================================
    ACCIONES
@@ -486,23 +500,22 @@
 
 .acciones-container {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   justify-content: center;
   align-items: center;
-  width: 100%;
   flex-wrap: nowrap;
 }
 
 .btn-accion {
+   margin: 0;
   padding: 0;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 12px;
   text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   transition: all 0.3s ease;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   width: 32px;
@@ -511,8 +524,10 @@
   min-height: 32px;
   flex-shrink: 0;
   box-sizing: border-box;
-  vertical-align: middle;
-  font-weight: 500;
+  font-size: 18px;
+  line-height: 1;
+  font-style: normal;
+  font-family: inherit;
 }
 
 .btn-accion:hover {
@@ -558,19 +573,6 @@
 @media (max-width: 1024px) {
   .tabla-analisis {
     font-size: 10px;
-  }
-
-  .tabla-analisis th,
-  .tabla-analisis td {
-    padding: 8px 6px;
-  }
-
-  .btn-accion {
-    width: 30px;
-    height: 30px;
-    min-width: 30px;
-    min-height: 30px;
-    font-size: 11px;
   }
 
   .carpeta-item {
@@ -643,22 +645,6 @@
     min-width: 900px;
   }
 
-  .tabla-analisis th,
-  .tabla-analisis td {
-    padding: 7px 5px;
-  }
-
-  .btn-accion {
-    width: 28px;
-    height: 28px;
-    min-width: 28px;
-    min-height: 28px;
-    font-size: 10px;
-  }
-
-  .acciones-container {
-    gap: 4px;
-  }
 
   .carpeta-actual {
     padding: 10px;
@@ -692,11 +678,6 @@
 
   .carpetas-header h4 {
     font-size: 13px;
-  }
-
-  .btn-nueva-carpeta {
-    padding: 6px 10px;
-    font-size: 12px;
   }
 
   .input-carpeta {
@@ -753,6 +734,8 @@
   .checkbox-fila {
     width: 14px;
     height: 14px;
+    text-align: center !important;
+}
   }
 
   .label-todos {
@@ -769,27 +752,8 @@
     margin-bottom: 8px;
   }
 
-  .tabla-analisis {
-    font-size: 8px;
-    min-width: 800px;
-  }
-
-  .tabla-analisis th,
-  .tabla-analisis td {
-    padding: 5px 4px;
-  }
-
-  .btn-accion {
-    width: 26px;
-    height: 26px;
-    min-width: 26px;
-    min-height: 26px;
-    font-size: 9px;
-  }
-
   .btn-actualizar {
     padding: 8px 12px;
     font-size: 12px;
     margin-top: 10px;
   }
-}

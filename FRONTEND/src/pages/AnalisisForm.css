@@ -1,14 +1,14 @@
 /* ===============================================
-AnalisisForm.css (Armonizado y Corregido)
+AnalisisForm.css
 ===============================================
 */
 
 .analisis-container {
-    padding: 20px;
+    padding: 10px;
 }
 
 .analisis-form {
-  max-width: 450px;
+  max-width: 550px;
   margin: 0 auto;
   padding: 30px;
   background: white;
@@ -75,17 +75,17 @@ AnalisisForm.css (Armonizado y Corregido)
 .carpeta-select-container {
   display: flex;
   gap: 8px;
-  align-items: center;
-  margin-top: 5px;
+  align-items: stretch;
 }
 
 .carpeta-select-container select {
   flex: 1;
-  margin-top: 0;
+  padding: 10px; /* Asegura mismo padding que el botón */
+  box-sizing: border-box;
 }
 
 .btn-crear-carpeta-inline {
-  background: linear-gradient(135deg, #c7a2eb 0%, #6b3291 100%);
+  background: linear-gradient(135deg,#c7a2eb 0%, #6b3291 100%);
   color: white;
   border: none;
   padding: 10px 14px;
@@ -112,51 +112,52 @@ AnalisisForm.css (Armonizado y Corregido)
   transform: translateY(0);
 }
 
-/* ============================================
-   FORMULARIO INLINE PARA CREAR CARPETA (CORREGIDO)
-   ============================================ */
-
 .form-carpeta-inline {
   display: flex;
   gap: 10px;
   margin-top: 15px;
-  align-items: stretch; /* Asegura altura igualada */
-  width: 100%;          /* Ocupa todo el ancho disponible */
+  align-items: center;
+  width: 100%;
   animation: fadeIn 0.3s ease-in-out;
 }
 
 .input-carpeta-inline {
   flex: 1;
   width: 100%;
-  padding: 10px 12px;
+  padding: 10px 12px; /* CAMBIADO: volver a usar padding vertical */
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   box-sizing: border-box;
+  height: 44px;
+  margin: 0 !important;
+  line-height: normal; /* CAMBIADO: de 44px a normal */
 }
 
 .input-carpeta-inline:focus {
   outline: none;
-  border-color: #28a745;
-  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+  border-color: #9f4ebe;
+  box-shadow: 0 0 0 3px rgba(159, 78, 190, 0.1);
 }
 
 .btn-enviar-carpeta {
-  background: #9f4ebe;
+  background: linear-gradient(135deg, #c7a2eb 0%, #6b3291 100%); 
   color: white;
   border: none;
-  padding: 0 20px;
+  padding: 10px 24px; /* CAMBIADO: volver a usar padding vertical */
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
   transition: all 0.3s ease;
   flex-shrink: 0;
-  white-space: nowrap; /* Evita rotura de texto */
-  display: flex;
+  display: flex; /* CAMBIADO: volver a flex */
   align-items: center;
   justify-content: center;
+  height: 42px;
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .btn-enviar-carpeta:hover:not(:disabled) {
@@ -220,7 +221,7 @@ AnalisisForm.css (Armonizado y Corregido)
 }
 
 .resultados-container h3 {
-  color: #28a745; 
+  color: #6e28a7; 
   margin-top: 0; 
   text-align: center;
   font-size: 20px;
@@ -273,23 +274,28 @@ AnalisisForm.css (Armonizado y Corregido)
     color: #0056b3;
 }
 
-/* ============================================
-   RESPONSIVE DESIGN
-   ============================================ */
 
 @media (max-width: 480px) {
-  .carpeta-select-container {
-    flex-direction: column;
-    gap: 6px;
-  }
 
-  .carpeta-select-container select {
-    width: 100%;
-  }
-
+ 
   .btn-crear-carpeta-inline {
-    width: 100%;
-    min-width: unset;
+    background: linear-gradient(135deg, #c7a2eb 0%, #6b3291 100%);
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    height: auto; /* Cambiado de 42px a auto */
+    min-height: 42px;
+    display: inline-flex; /* Cambiado de flex a inline-flex */
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-sizing: border-box; /* Añadido */
   }
 
   .form-carpeta-inline {
@@ -301,9 +307,4 @@ AnalisisForm.css (Armonizado y Corregido)
     width: 100%;
   }
 
-  .btn-enviar-carpeta {
-    width: 100%;
-    min-width: unset;
-    padding: 10px;
-  }
 }

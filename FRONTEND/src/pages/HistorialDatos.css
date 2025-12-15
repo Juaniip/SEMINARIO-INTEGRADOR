@@ -523,10 +523,6 @@
     min-width: 900px;
   }
 
-  .tabla-analisis th,
-  .tabla-analisis td {
-    padding: 7px 5px;
-  }
 
   .btn-volver {
     padding: 8px 12px;

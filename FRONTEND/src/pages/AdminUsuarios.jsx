@@ -36,7 +36,7 @@ const AdminUsuarios = () => {
         return;
       }
 
-      // ✅ CAMBIO: Usar /api/usuarios en lugar de /api/login
+      // Usar /api/usuarios en lugar de /api/login
       const response = await fetch('http://localhost:5000/api/usuarios', {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -114,7 +114,7 @@ const AdminUsuarios = () => {
   const eliminarUsuario = async (id, nombreUsuario) => {
     // Protección en el frontend también
     if (nombreUsuario === 'FORPW') {
-      alert('🔐 El usuario FORPW es el administrador principal del sistema y está protegido contra eliminación por motivos de seguridad.');
+      alert(' El usuario FORPW es el administrador principal del sistema y está protegido contra eliminación por motivos de seguridad.');
       return;
     }
 
@@ -157,7 +157,7 @@ const AdminUsuarios = () => {
     return (
       <div className="admin-container">
         <div className="error-acceso">
-          <h2>⛔ Acceso Denegado</h2>
+          <h2>Acceso Denegado</h2>
           <p>No tienes permisos para acceder a esta página.</p>
           <p>Solo los administradores pueden gestionar usuarios.</p>
         </div>
@@ -192,7 +192,7 @@ const AdminUsuarios = () => {
   return (
     <div className="admin-container">
       <div className="admin-header">
-        <h2>👤 Administración de Usuarios</h2>
+        <h2> Administración de Usuarios</h2>
         <button
           onClick={() => setMostrarFormulario(!mostrarFormulario)}
           className="btn-nuevo-usuario"
@@ -253,8 +253,8 @@ const AdminUsuarios = () => {
                 </select>
               </label>
               <small className="form-help">
-                <strong>Usuario:</strong> Puede crear y gestionar sus propios análisis<br />
-                <strong>Administrador:</strong> Puede gestionar usuarios y todos los análisis
+                <strong>Usuario:</strong> Puede crear y gestionar análisis<br />
+                <strong>Administrador:</strong> Puede gestionar usuarios y análisis
               </small>
             </div>
 
@@ -312,11 +312,11 @@ const AdminUsuarios = () => {
                         className="btn-eliminar"
                         title="Eliminar usuario"
                       >
-                        🗑️ Eliminar
+                         Eliminar
                       </button>
                     )}
                     {usuario.usuario === 'FORPW' && (
-                      <span className="texto-protegido">🔐 Protegido</span>
+                      <span className="texto-protegido"> Protegido</span>
                     )}
                   </div>
                 </td>
@@ -338,7 +338,7 @@ const AdminUsuarios = () => {
         onClick={cargarUsuarios}
         className="btn-actualizar"
       >
-        🔄 Actualizar Lista
+        Actualizar Lista
       </button>
     </div>
   );

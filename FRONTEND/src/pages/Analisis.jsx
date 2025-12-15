@@ -286,7 +286,7 @@ const AnalisisForm = ({ usuario }) => {
 
       {resultados && (
         <div className="resultados-container">
-          <h3>✅ Resultados Obtenidos</h3>
+          <h3> Resultados Obtenidos</h3>
           <div className="resultados-grid">
             <div className="resultado-item">
               <div className="res-valor" style={{color:'#007bff'}}>
@@ -296,7 +296,7 @@ const AnalisisForm = ({ usuario }) => {
             </div>
             
             <div className="resultado-item">
-              <div className="res-valor" style={{color:'#28a745'}}>
+              <div className="res-valor" style={{color:'#28a737ff'}}>
                 {resultados.elongacion_ruptura?.toFixed(2)} %
               </div>
               <div className="res-label">Elongación de Ruptura</div>
@@ -306,7 +306,7 @@ const AnalisisForm = ({ usuario }) => {
               <div className="res-valor" style={{color:'#dc3545'}}>
                 {resultados.modulo_young?.toFixed(3)} MPa
               </div>
-              <div className="res-label">Módulo de Elasticidad (E)</div>
+              <div className="res-label">Módulo de Elasticidad</div>
             </div>
           </div>
         </div>

@@ -32,9 +32,6 @@ const AnalisisForm = ({ usuario }) => {
       if (response.ok) {
         const data = await response.json();
         setCarpetas(data);
-        if (data.length > 0 && !formData.carpeta_id) {
-          setFormData(prev => ({ ...prev, carpeta_id: data[0].id }));
-        }
       }
     } catch (error) { 
       console.error(error); 
@@ -202,7 +199,6 @@ const AnalisisForm = ({ usuario }) => {
             </div>
           </label>
 
-          {/* CORRECCIÓN: Usamos div en lugar de form para evitar anidamiento ilegal */}
           {mostrarFormCarpeta && (
             <div className="form-carpeta-inline">
               <input

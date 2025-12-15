@@ -216,7 +216,7 @@ const AnalisisForm = ({ usuario }) => {
                     crearCarpeta(e);
                   }
                 }}
-                placeholder="Nombre de la carpeta"
+                placeholder="--Nombre de la carpeta--"
                 className="input-carpeta-inline"
               />
               <button 

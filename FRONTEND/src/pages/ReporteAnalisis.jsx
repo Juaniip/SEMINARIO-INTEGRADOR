@@ -35,7 +35,7 @@ const ReporteAnalisis = () => {
         return;
       }
 
-      const response = await fetch(`http://localhost:5000/api/analisis/${id}`, {
+      const response = await fetch(`/api/analisis/${id}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -135,7 +135,7 @@ const ReporteAnalisis = () => {
   const descargarCSV = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/analisis/${id}/descargar-csv`, {
+      const response = await fetch(`/api/analisis/${id}/descargar-csv`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (response.ok) {

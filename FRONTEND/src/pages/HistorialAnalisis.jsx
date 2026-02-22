@@ -50,7 +50,7 @@ const HistorialAnalisis = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/carpetas', {
+      const response = await fetch('/api/carpetas', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -79,7 +79,7 @@ const HistorialAnalisis = () => {
       setLoading(true);
       const token = localStorage.getItem('token');
       
-      const response = await fetch(`http://localhost:5000/api/carpetas/${carpetaId}/analisis`, {
+      const response = await fetch(`/api/carpetas/${carpetaId}/analisis`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -109,7 +109,7 @@ const HistorialAnalisis = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/carpetas', {
+      const response = await fetch('/api/carpetas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -141,7 +141,7 @@ const HistorialAnalisis = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/carpetas/${carpetaId}`, {
+      const response = await fetch(`/api/carpetas/${carpetaId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -224,7 +224,7 @@ const HistorialAnalisis = () => {
   const descargarCSV = async (id, nombreArchivo) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/analisis/${id}/descargar-csv`, {
+      const response = await fetch(`/api/analisis/${id}/descargar-csv`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -256,7 +256,7 @@ const HistorialAnalisis = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/analisis/${id}`, {
+      const response = await fetch(`/api/analisis/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -316,7 +316,7 @@ const HistorialAnalisis = () => {
       let errores = 0;
 
       for (const id of seleccionados) {
-        const response = await fetch(`http://localhost:5000/api/analisis/${id}`, {
+        const response = await fetch(`/api/analisis/${id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`

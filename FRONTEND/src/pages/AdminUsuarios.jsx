@@ -37,7 +37,7 @@ const AdminUsuarios = () => {
       }
 
       // Usar /api/usuarios en lugar de /api/login
-      const response = await fetch('http://localhost:5000/api/usuarios', {
+      const response = await fetch('/api/usuarios', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -82,7 +82,7 @@ const AdminUsuarios = () => {
     try {
       const token = localStorage.getItem('token');
       // ✅ CAMBIO: Usar /api/usuarios para crear usuario
-      const response = await fetch('http://localhost:5000/api/usuarios', {
+      const response = await fetch('/api/usuarios', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ const AdminUsuarios = () => {
     try {
       const token = localStorage.getItem('token');
       // ✅ CAMBIO: Usar /api/usuarios/:id para eliminar usuario
-      const response = await fetch(`http://localhost:5000/api/usuarios/${id}`, {
+      const response = await fetch(`/api/usuarios/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

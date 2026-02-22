@@ -25,7 +25,7 @@ const Login = ({ onLogin }) => {
     setError("");
 
     try {
-      const response = await fetch('http://localhost:5000/api/login', {
+      const response = await fetch('/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -100,11 +100,6 @@ const Login = ({ onLogin }) => {
         </button>
       </form>
       
-      <div className="info-prueba">
-        <p><strong>Usuario de prueba:</strong></p>
-        <p>Usuario: FORPW</p>
-        <p>Contraseña: UTN2025SEM</p>
-      </div>
     </div>
   );
 };

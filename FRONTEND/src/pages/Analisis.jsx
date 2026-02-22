@@ -26,7 +26,7 @@ const AnalisisForm = ({ usuario }) => {
     try {
       const token = localStorage.getItem('token');
       if (!token) return;
-      const response = await fetch('http://localhost:5000/api/carpetas', {
+      const response = await fetch('/api/carpetas', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (response.ok) {
@@ -49,7 +49,7 @@ const AnalisisForm = ({ usuario }) => {
     setLoadingCarpeta(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/carpetas', {
+      const response = await fetch('/api/carpetas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -133,7 +133,7 @@ const AnalisisForm = ({ usuario }) => {
       }
 
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/analisis', {
+      const response = await fetch('/api/analisis', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

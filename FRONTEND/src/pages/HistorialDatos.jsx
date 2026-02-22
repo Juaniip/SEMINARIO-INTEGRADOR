@@ -37,7 +37,7 @@ const HistorialDatos = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/datos-relevantes', {
+      const response = await fetch('/api/datos-relevantes', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -62,7 +62,7 @@ const HistorialDatos = () => {
     try {
       setLoadingAnalisis(true);
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/datos-relevantes/${carpetaId}`, {
+      const response = await fetch(`/api/datos-relevantes/${carpetaId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

@@ -1,11 +1,11 @@
-/* Reset básico local (opcional si ya está en index.css) */
+/* Reset básico local */
 * {
   box-sizing: border-box;
 }
 
-/* ESTILOS CLAVE PARA EL FOOTER STICKY
-   ===================================
-*/
+/* ===================================
+   ESTILOS CLAVE PARA EL FOOTER STICKY
+   =================================== */
 
 /* 1. El contenedor principal ocupa al menos el 100% de la ventana */
 .App {
@@ -17,11 +17,13 @@
 /* 2. El contenido principal crece para ocupar todo el espacio libre */
 .main-content {
   flex: 1;
-  padding: 20px;
   width: 100%;
+  /* Podés agregar padding acá si querés que todo el contenido respire un poco */
 }
 
-/* RESTO DE TUS ESTILOS EXISTENTES */
+/* ===================================
+   RESTO DE TUS ESTILOS EXISTENTES
+   =================================== */
 
 nav {
   display: flex;

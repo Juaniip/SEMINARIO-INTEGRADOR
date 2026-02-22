@@ -1,7 +1,6 @@
 /* ===============================================
 index.css (Estilos Base y Globales Unificados)
-===============================================
-*/
+=============================================== */
 
 /* Reset básico */
 * {
@@ -10,6 +9,15 @@ index.css (Estilos Base y Globales Unificados)
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
+}
+
+
+html, body, #root {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* 🔥 EL CANDADO CONTRA COLUMNAS BLANCAS */
+    width: 100%;
 }
 
 /* Body */
@@ -59,7 +67,7 @@ nav .links a:hover {
 .historial-container,
 .registros-container,
 .reporte-container,
-.admin-container { /* Agregamos .admin-container */
+.admin-container { 
     max-width: 1200px;
     margin: 2rem auto;
     padding: 30px;
@@ -133,7 +141,7 @@ button:not([class^="btn-"]):hover {
 }
 
 .tabla-analisis,
-.tabla-usuarios { /* Aplicar a tablas de usuario también */
+.tabla-usuarios { 
     width: 100%;
     min-width: 900px;
     border-collapse: collapse;
@@ -153,7 +161,7 @@ button:not([class^="btn-"]):hover {
     white-space: nowrap;
     text-transform: uppercase;
 }
-z
+
 .tabla-analisis td,
 .tabla-usuarios td {
     padding: 10px 8px;
@@ -189,11 +197,4 @@ z
     font-family: monospace;
     font-weight: 500;
     color: #333;
-}
-html, body, #root {
-    height: 100%;       /* Ocupar el 100% de la altura de la ventana */
-    margin: 0;
-    padding: 0;
-    display: flex;      /* Habilitar Flexbox en el contenedor raíz */
-    flex-direction: column; /* Organizar los hijos (Navbar, Contenido, Footer) en columna */
 }

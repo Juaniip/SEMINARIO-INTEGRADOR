@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const multer = require('multer');
-
+const fs = require('fs');
 const app = express();
 const PORT = process.env.ENV_PORT || 5000;
 const JWT_SECRET = 'tu_jwt_secret_key_muy_segura_aqui';
@@ -27,11 +27,18 @@ function obtenerFechaBA() {
   const fechaBsAs = new Date(ahora.getTime() + offsetBsAs);
   return fechaBsAs.toISOString().slice(0, 19).replace('T', ' ');
 }
-
+const dirData = './data';
+if (!fs.existsSync(dirData)){
+  fs.mkdirSync(dirData, { recursive: true });
+  console.log('Carpeta /data creada automáticamente.');
+}
 // Base de datos
-const db = new sqlite3.Database('./database.db', (err) => {
-  if (err) console.error('Error DB:', err.message);
-  else console.log('Conectado a SQLite.');
+const db = new sqlite3.Database('./data/database.db', (err) => {
+  if (err) {
+    console.error('Error al conectar con la base de datos:', err.message);
+  } else {
+    console.log('Conectado a la base de datos SQLite.');
+  }
 });
 
 db.serialize(() => {
